@@ -6,10 +6,16 @@ FundMate is a modern, responsive landing page for a peer-to-peer loan and crowdf
 
 - **Responsive Design**: Fully responsive layout that works seamlessly on all devices
 - **Modern UI/UX**: Clean, professional design with smooth animations and transitions
+- **Framer Motion Animations**: Beautiful, performant animations throughout the site
+  - Scroll-triggered animations
+  - Hover effects and micro-interactions
+  - Smooth page transitions
+  - Floating and blob animations
 - **Performance Optimized**: Built with Vite for lightning-fast development and production builds
 - **Component-Based**: Modular React components for easy maintenance and scalability
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
 - **Icon Library**: Lucide React icons for beautiful, consistent iconography
+- **Custom Color Scheme**: Purple (#DD7BDF) and Blue (#B3BFFF) brand colors
 
 ## 📁 Project Structure
 

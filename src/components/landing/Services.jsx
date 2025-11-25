@@ -1,5 +1,6 @@
 import React from 'react'
 import { Wallet, TrendingUp, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Services = () => {
   const services = [
@@ -52,40 +53,72 @@ const Services = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {services.map((service, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-2xl shadow-xl overflow-hidden group"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              whileHover={{ y: -10, boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15)" }}
             >
               {/* Header */}
-              <div className={`bg-gradient-to-r ${service.gradient} p-8 text-white`}>
-                <div className="text-6xl mb-4">{service.image}</div>
+              <motion.div 
+                className={`bg-gradient-to-r ${service.gradient} p-8 text-white`}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div 
+                  className="text-6xl mb-4"
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  {service.image}
+                </motion.div>
                 <div className="flex items-center space-x-4 mb-4">
-                  {service.icon}
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    {service.icon}
+                  </motion.div>
                   <h3 className="text-2xl font-bold">{service.title}</h3>
                 </div>
                 <p className="text-white/90 text-lg">
                   {service.description}
                 </p>
-              </div>
+              </motion.div>
 
               {/* Features */}
               <div className="p-8">
                 <ul className="space-y-4 mb-8">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start space-x-3">
+                    <motion.li 
+                      key={idx} 
+                      className="flex items-start space-x-3"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 }}
+                      whileHover={{ x: 5 }}
+                    >
                       <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center mt-0.5">
                         <ArrowRight className="h-4 w-4 text-primary-600" />
                       </div>
                       <span className="text-gray-700">{feature}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
 
-                <button className="w-full btn-outline">
+                <motion.button 
+                  className="w-full btn-outline"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   Learn More
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

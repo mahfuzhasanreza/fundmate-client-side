@@ -1,5 +1,6 @@
 import React from 'react'
 import { TrendingUp, Users, DollarSign, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Stats = () => {
   const stats = [
@@ -34,15 +35,33 @@ const Stats = () => {
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
-            <div key={index} className="text-center group">
-              <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-${stat.color}-100 text-${stat.color}-600 mb-4 group-hover:scale-110 transition-transform duration-200`}>
+            <motion.div 
+              key={index} 
+              className="text-center group"
+              initial={{ opacity: 0, scale: 0.5 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <motion.div 
+                className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-${stat.color}-100 text-${stat.color}-600 mb-4`}
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
                 {stat.icon}
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+              </motion.div>
+              <motion.h3 
+                className="text-2xl md:text-3xl font-bold text-gray-900 mb-1"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 + 0.2 }}
+              >
                 {stat.value}
-              </h3>
+              </motion.h3>
               <p className="text-sm md:text-base text-gray-600">{stat.label}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

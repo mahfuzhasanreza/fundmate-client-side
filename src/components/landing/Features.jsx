@@ -1,5 +1,6 @@
 import React from 'react'
 import { Shield, Zap, TrendingUp, Users, Lock, Bell } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Features = () => {
   const features = [
@@ -45,7 +46,13 @@ const Features = () => {
     <section id="features" className="py-20 md:py-28 bg-gray-50">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div 
+          className="text-center max-w-3xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Why Choose{' '}
             <span className="bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent">
@@ -55,25 +62,34 @@ const Features = () => {
           <p className="text-lg md:text-xl text-gray-600">
             Experience the future of peer-to-peer lending and crowdfunding with features designed for trust, transparency, and ease.
           </p>
-        </div>
+        </motion.div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group"
+              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -10 }}
             >
-              <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-${feature.color}-100 text-${feature.color}-600 mb-6 group-hover:scale-110 transition-transform duration-200`}>
+              <motion.div 
+                className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-${feature.color}-100 text-${feature.color}-600 mb-6`}
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.6 }}
+              >
                 {feature.icon}
-              </div>
+              </motion.div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 {feature.title}
               </h3>
               <p className="text-gray-600 leading-relaxed">
                 {feature.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

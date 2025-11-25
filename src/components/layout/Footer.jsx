@@ -1,5 +1,6 @@
 import React from 'react'
 import { Wallet, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -31,31 +32,40 @@ const Footer = () => {
       <div className="container-custom py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-primary-600 to-primary-500 p-2 rounded-lg">
+              <motion.div 
+                className="bg-gradient-to-r from-primary-600 to-primary-500 p-2 rounded-lg"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
                 <Wallet className="h-6 w-6 text-white" />
-              </div>
+              </motion.div>
               <span className="text-2xl font-bold text-white">FundMate</span>
             </div>
             <p className="text-sm leading-relaxed">
               Making financial support simple, transparent, and accessible within trusted communities through peer-to-peer loans and crowdfunding.
             </p>
             <div className="flex space-x-4 pt-4">
-              <a href="#" className="hover:text-primary-400 transition-colors duration-200">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary-400 transition-colors duration-200">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary-400 transition-colors duration-200">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary-400 transition-colors duration-200">
-                <Instagram className="h-5 w-5" />
-              </a>
+              {[Facebook, Twitter, Linkedin, Instagram].map((Icon, index) => (
+                <motion.a 
+                  key={index}
+                  href="#" 
+                  className="hover:text-primary-400 transition-colors duration-200"
+                  whileHover={{ scale: 1.2, y: -3 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Icon className="h-5 w-5" />
+                </motion.a>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Company Links */}
           <div>
