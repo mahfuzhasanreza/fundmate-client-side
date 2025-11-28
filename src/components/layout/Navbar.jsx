@@ -19,11 +19,9 @@ const Navbar = () => {
   }
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Features', href: '#features' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Explore Loans', href: '#loans' },
+    { name: 'Explore Campaigns', href: '#campaigns' },
+    { name: 'Dashboard', href: '#dashboard' },
   ]
 
   return (
@@ -80,14 +78,14 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Sign In
+              Login
             </motion.button>
             <motion.button 
               className="btn-primary"
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(221, 123, 223, 0.3)" }}
               whileTap={{ scale: 0.95 }}
             >
-              Get Started
+              Register
             </motion.button>
           </div>
 
@@ -132,13 +130,13 @@ const Navbar = () => {
                     className="text-primary-600 hover:text-primary-700 font-semibold text-left transition-colors duration-200 pl-4"
                     whileTap={{ scale: 0.95 }}
                   >
-                    Sign In
+                    Login
                   </motion.button>
                   <motion.button 
                     className="btn-primary w-full"
                     whileTap={{ scale: 0.95 }}
                   >
-                    Get Started
+                    Register
                   </motion.button>
                 </div>
               </div>

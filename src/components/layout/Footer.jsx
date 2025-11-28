@@ -7,30 +7,23 @@ const Footer = () => {
 
   const companyLinks = [
     { name: 'About Us', href: '#about' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Features', href: '#features' },
-    { name: 'Pricing', href: '#pricing' },
-  ]
-
-  const supportLinks = [
-    { name: 'Help Center', href: '#help' },
-    { name: 'Safety & Security', href: '#security' },
-    { name: 'Terms of Service', href: '#terms' },
     { name: 'Privacy Policy', href: '#privacy' },
+    { name: 'Support', href: '#support' },
+    { name: 'Contact', href: '#contact' },
   ]
 
-  const servicesLinks = [
-    { name: 'Peer-to-Peer Loans', href: '#loans' },
-    { name: 'Crowdfunding', href: '#crowdfunding' },
-    { name: 'Loan Calculator', href: '#calculator' },
-    { name: 'Campaign Management', href: '#campaigns' },
+  const resourceLinks = [
+    { name: 'FAQs', href: '#faqs' },
+    { name: 'Help Center', href: '#help' },
+    { name: 'Terms of Service', href: '#terms' },
+    { name: 'Community Guidelines', href: '#guidelines' },
   ]
 
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Main Footer Content */}
       <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           {/* Brand Section */}
           <motion.div 
             className="space-y-4"
@@ -84,11 +77,11 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services Links */}
+          {/* Resources Links */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Services</h3>
+            <h3 className="text-white font-semibold text-lg mb-4">Resources</h3>
             <ul className="space-y-3">
-              {servicesLinks.map((link) => (
+              {resourceLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -99,37 +92,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Support & Contact */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Support</h3>
-            <ul className="space-y-3 mb-6">
-              {supportLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm hover:text-primary-400 transition-colors duration-200"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm">
-                <Mail className="h-4 w-4 text-primary-400" />
-                <span>learnicaedu.official@gmail.com</span>
-              </div>
-              {/* <div className="flex items-center space-x-2 text-sm">
-                <Phone className="h-4 w-4 text-primary-400" />
-                <span>+1 (555) 123-4567</span>
-              </div> */}
-              {/* <div className="flex items-center space-x-2 text-sm">
-                <MapPin className="h-4 w-4 text-primary-400" />
-                <span>123 Finance St, NY 10001</span>
-              </div> */}
-            </div>
           </div>
         </div>
       </div>
