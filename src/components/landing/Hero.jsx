@@ -1,8 +1,10 @@
-import React from 'react'
-import { ArrowRight, Play } from 'lucide-react'
+import React, { useState } from 'react'
+import { ArrowRight, Play, Search } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const Hero = () => {
+  const [searchCategory, setSearchCategory] = useState('all')
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -150,6 +152,43 @@ const Hero = () => {
               transparency and automated management.
             </motion.p>
 
+            {/* Search Bar */}
+            <motion.div 
+              className="max-w-2xl mx-auto lg:mx-0"
+              variants={itemVariants}
+            >
+              <div className="bg-white rounded-2xl shadow-xl p-2 border border-gray-200">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex-1 flex items-center gap-2 px-4 py-3 bg-gray-50 rounded-xl">
+                    <Search className="h-5 w-5 text-gray-400" />
+                    <input 
+                      type="text" 
+                      placeholder="Search for loans or campaigns..."
+                      className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-400"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <select 
+                      value={searchCategory}
+                      onChange={(e) => setSearchCategory(e.target.value)}
+                      className="px-4 py-3 bg-gray-50 rounded-xl border-none outline-none text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                    >
+                      <option value="all">All</option>
+                      <option value="loans">Loans</option>
+                      <option value="campaigns">Campaigns</option>
+                    </select>
+                    <motion.button 
+                      className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Search
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               variants={itemVariants}
@@ -159,7 +198,7 @@ const Hero = () => {
                 whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(22, 163, 74, 0.3)" }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Get Started Free</span>
+                <span>Request Loan</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1, repeat: Infinity }}
@@ -172,13 +211,13 @@ const Hero = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
+                <span>Start Campaign</span>
                 <motion.div
-                  whileHover={{ scale: 1.2, rotate: 360 }}
-                  transition={{ duration: 0.5 }}
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
                 >
-                  <Play className="h-5 w-5" />
+                  <ArrowRight className="h-5 w-5" />
                 </motion.div>
-                <span>Watch Demo</span>
               </motion.button>
             </motion.div>
 
