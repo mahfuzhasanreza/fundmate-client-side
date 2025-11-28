@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, X, Wallet } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,6 +76,7 @@ const Navbar = () => {
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <motion.button 
+              onClick={() => navigate('/login')}
               className="text-primary-600 hover:text-primary-700 font-semibold transition-colors duration-200"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -81,6 +84,7 @@ const Navbar = () => {
               Login
             </motion.button>
             <motion.button 
+              onClick={() => navigate('/register')}
               className="btn-primary"
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(22, 163, 74, 0.3)" }}
               whileTap={{ scale: 0.95 }}
@@ -127,12 +131,20 @@ const Navbar = () => {
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
                   <motion.button 
+                    onClick={() => {
+                      navigate('/login')
+                      setIsOpen(false)
+                    }}
                     className="text-primary-600 hover:text-primary-700 font-semibold text-left transition-colors duration-200 pl-4"
                     whileTap={{ scale: 0.95 }}
                   >
                     Login
                   </motion.button>
                   <motion.button 
+                    onClick={() => {
+                      navigate('/register')
+                      setIsOpen(false)
+                    }}
                     className="btn-primary w-full"
                     whileTap={{ scale: 0.95 }}
                   >
