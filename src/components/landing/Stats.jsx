@@ -8,25 +8,29 @@ const Stats = () => {
       icon: <DollarSign className="h-8 w-8" />,
       value: '$2.5M+',
       label: 'Total Funded',
-      color: 'primary'
+      bgColor: 'bg-green-100',
+      textColor: 'text-green-600'
     },
     {
       icon: <Users className="h-8 w-8" />,
       value: '10,000+',
       label: 'Active Users',
-      color: 'secondary'
+      bgColor: 'bg-secondary-100',
+      textColor: 'text-secondary-600'
     },
     {
       icon: <TrendingUp className="h-8 w-8" />,
       value: '95%',
       label: 'Success Rate',
-      color: 'primary'
+      bgColor: 'bg-green-100',
+      textColor: 'text-green-600'
     },
     {
       icon: <Clock className="h-8 w-8" />,
       value: '24/7',
       label: 'Support Available',
-      color: 'secondary'
+      bgColor: 'bg-secondary-100',
+      textColor: 'text-secondary-600'
     }
   ]
 
@@ -45,7 +49,7 @@ const Stats = () => {
               whileHover={{ scale: 1.05 }}
             >
               <motion.div 
-                className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-${stat.color}-100 text-${stat.color}-600 mb-4`}
+                className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${stat.bgColor} ${stat.textColor} mb-4`}
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.6 }}
               >

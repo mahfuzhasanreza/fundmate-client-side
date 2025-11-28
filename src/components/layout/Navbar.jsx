@@ -82,7 +82,7 @@ const Navbar = () => {
             </motion.button>
             <motion.button 
               className="btn-primary"
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(221, 123, 223, 0.3)" }}
+              whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(22, 163, 74, 0.3)" }}
               whileTap={{ scale: 0.95 }}
             >
               Register

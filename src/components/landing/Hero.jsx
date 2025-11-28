@@ -156,7 +156,7 @@ const Hero = () => {
             >
               <motion.button 
                 className="btn-primary flex items-center justify-center space-x-2 group"
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(221, 123, 223, 0.3)" }}
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(22, 163, 74, 0.3)" }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span>Get Started Free</span>
@@ -252,7 +252,7 @@ const Hero = () => {
                   <div className="space-y-4">
                     <motion.div 
                       className="flex items-center justify-between p-4 bg-primary-50 rounded-lg"
-                      whileHover={{ x: 5, boxShadow: "0 10px 20px rgba(221, 123, 223, 0.2)" }}
+                      whileHover={{ x: 5, boxShadow: "0 10px 20px rgba(22, 163, 74, 0.2)" }}
                     >
                       <div>
                         <p className="font-semibold text-gray-900">Small Business Loan</p>

@@ -69,11 +69,11 @@ const HowItWorks = () => {
               >
                 {/* Step Number */}
                 <div className="relative inline-block mb-6">
-                  <motion.div 
-                    className="w-20 h-20 bg-white border-4 border-primary-200 rounded-full flex items-center justify-center text-2xl font-bold text-primary-600 relative z-10"
-                    whileHover={{ scale: 1.1, borderColor: '#DD7BDF' }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
+                <motion.div 
+                  className="w-20 h-20 bg-white border-4 border-primary-200 rounded-full flex items-center justify-center text-2xl font-bold text-primary-600 relative z-10"
+                  whileHover={{ scale: 1.1, borderColor: '#16a34a' }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
                     {step.number}
                   </motion.div>
                   <motion.div 
@@ -86,7 +86,7 @@ const HowItWorks = () => {
                 {/* Icon */}
                 <motion.div 
                   className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary-100 text-primary-600 mb-6"
-                  whileHover={{ backgroundColor: '#DD7BDF', color: '#fff', rotate: 360 }}
+                  whileHover={{ backgroundColor: '#16a34a', color: '#fff', rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
                   {step.icon}
@@ -114,7 +114,7 @@ const HowItWorks = () => {
         >
           <motion.button 
             className="btn-primary text-lg px-8 py-4"
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(221, 123, 223, 0.3)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(22, 163, 74, 0.3)" }}
             whileTap={{ scale: 0.95 }}
           >
             Start Your Journey Today
