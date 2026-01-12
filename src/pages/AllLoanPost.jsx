@@ -215,4 +215,19 @@ const AllLoanPost = () => {
         return 0
     }
   })
+
+    const calculateMonthlyPayment = (principal, rate, months) => {
+    const monthlyRate = rate / 100 / 12
+    const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
+    return payment.toFixed(2)
+  }
+
+  const getDaysLeft = (deadline) => {
+    const days = Math.ceil((new Date(deadline) - new Date()) / (1000 * 60 * 60 * 24))
+    return days > 0 ? days : 0
+  }
+
+  const handleLoanClick = (loanId) => {
+    navigate(`/loan/${loanId}`)
+  }
 }
