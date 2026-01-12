@@ -75,4 +75,69 @@ const CampaignCreate = () => {
     { id: 4, title: 'Preview', description: 'Review & publish' }
   ]
 
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: null
+      }))
+    }
+  }
+
+  const handleImageUpload = (files) => {
+    const newFiles = Array.from(files).slice(0, 5 - imageFiles.length) // Max 5 images
+    const newImageFiles = [...imageFiles, ...newFiles]
+    setImageFiles(newImageFiles)
+    
+    // Create preview URLs
+    const newImages = newFiles.map(file => ({
+      id: Date.now() + Math.random(),
+      file,
+      url: URL.createObjectURL(file),
+      name: file.name
+    }))
+    
+    setFormData(prev => ({
+      ...prev,
+      images: [...prev.images, ...newImages]
+    }))
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    setDragOver(false)
+    const files = e.dataTransfer.files
+    handleImageUpload(files)
+  }
+
+  const removeImage = (imageId) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter(img => img.id !== imageId)
+    }))
+    setImageFiles(prev => prev.filter((_, index) => 
+      prev[index].name !== formData.images.find(img => img.id === imageId)?.name
+    ))
+  }
+
+  const addTag = (tag) => {
+    if (!formData.tags.includes(tag)) {
+      setFormData(prev => ({
+        ...prev,
+        tags: [...prev.tags, tag]
+      }))
+    }
+  }
+
+  const removeTag = (tagToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }))
+  }
 }
