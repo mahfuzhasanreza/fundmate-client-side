@@ -151,3 +151,18 @@ const LoanDetails = () => {
       status: 'pending'
     }
   ]
+
+  const handleSubmitOffer = (e) => {
+    e.preventDefault()
+    console.log('Offer submitted:', { offerAmount, offerInterest, offerMessage })
+    setShowOfferModal(false)
+    setOfferAmount('')
+    setOfferInterest('')
+    setOfferMessage('')
+  }
+
+  const calculateMonthlyPayment = (principal, rate, months) => {
+    const monthlyRate = rate / 100 / 12
+    const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
+    return payment.toFixed(2)
+  }
