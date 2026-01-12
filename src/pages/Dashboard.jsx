@@ -216,4 +216,95 @@ const Dashboard = () => {
         return <OverviewSection stats={stats} recentActivities={recentActivities} upcomingPayments={upcomingPayments} activeCampaigns={activeCampaigns} />
     }
   }
+
+return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex">
+        {/* Sidebar */}
+        {/* <AnimatePresence>
+          {(sidebarOpen || typeof window !== 'undefined' && window.innerWidth >= 1024) && (
+            <motion.aside
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ duration: 0.3 }}
+              className="fixed lg:static inset-y-0 left-0 top-16 z-20 w-64 bg-white border-r border-gray-200 overflow-y-auto h-screen pt-4"
+            >
+            
+              <div className="lg:hidden p-4">
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="p-4 space-y-2">
+                {sidebarItems.map((item) => {
+                  const Icon = item.icon
+                  const isActive = activeSection === item.id
+                  
+                  return (
+                    <motion.button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveSection(item.id)
+                        setSidebarOpen(false)
+                      }}
+                      whileHover={{ x: 5 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                        isActive
+                          ? 'bg-primary-50 text-primary-600 font-semibold'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </motion.button>
+                  )
+                })}
+
+                <div className="pt-4 mt-4 border-t border-gray-200">
+                  <motion.button
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    <span>Logout</span>
+                  </motion.button>
+                </div>
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence> */}
+
+        {/* Main Content */}
+        <main className="flex-1 p-4 lg:p-8 overflow-x-hidden">
+          {/* Mobile Header */}
+          <div className="lg:hidden mb-6 flex items-center justify-between">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
+            <div className="text-2xl">{user.avatar}</div>
+          </div>
+
+          <motion.div
+            key={activeSection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {renderContent()}
+          </motion.div>
+        </main>
+      </div>
+    </div>
+  )
 }
