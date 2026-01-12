@@ -764,5 +764,4 @@ const LoanRequest = () => {
     </div>
   )
 }
-
 export default LoanRequest
