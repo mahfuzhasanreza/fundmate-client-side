@@ -1,11 +1,14 @@
-import React from 'react';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const LoanDetails = () => {
-  return (
-    <div>
-      
-    </div>
-  );
-}; 
+  const navigate = useNavigate()
 
-export default LoanDetails;
+  return (
+    <div className="min-h-screen">
+      Loan Details Page
+    </div>
+  )
+}
+
+export default LoanDetails
