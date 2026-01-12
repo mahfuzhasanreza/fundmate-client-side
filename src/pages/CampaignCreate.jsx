@@ -365,7 +365,58 @@ const CampaignCreate = () => {
                     )}
                   </div>
 
-        </div>
-        </div>
-    )
-  }
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Location *
+                    </label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <input
+                        type="text"
+                        value={formData.location}
+                        onChange={(e) => handleInputChange('location', e.target.value)}
+                        placeholder="City, Country"
+                        className={`w-full pl-10 pr-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all ${
+                          errors.location ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                        }`}
+                      />
+                    </div>
+                    {errors.location && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.location}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Short Description *
+                    </label>
+                    <textarea
+                      value={formData.shortDescription}
+                      onChange={(e) => handleInputChange('shortDescription', e.target.value)}
+                      placeholder="Write a brief description of your campaign (max 200 characters)"
+                      maxLength="200"
+                      rows="3"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none ${
+                        errors.shortDescription ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                      }`}
+                    />
+                    <div className="flex justify-between items-center mt-1">
+                      {errors.shortDescription && (
+                        <p className="text-red-500 text-sm flex items-center">
+                          <AlertCircle className="h-4 w-4 mr-1" />
+                          {errors.shortDescription}
+                        </p>
+                      )}
+                      <p className="text-sm text-gray-500 ml-auto">
+                        {formData.shortDescription.length}/200
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+  
