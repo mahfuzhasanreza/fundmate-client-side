@@ -496,3 +496,124 @@ const LoanRequest = () => {
                           <p className="text-xs text-gray-500 mt-1">Interest rate between 0% - 30%</p>
                         </motion.div>
                       )}
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                          Repayment Schedule
+                        </label>
+                        <div className="grid grid-cols-2 gap-3">
+                          {repaymentOptions.map((option) => (
+                            <motion.label
+                              key={option.value}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className={`relative flex items-center justify-center p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                                formData.repaymentSchedule === option.value
+                                  ? 'border-primary-600 bg-primary-50'
+                                  : 'border-gray-200 hover:border-primary-300'
+                              }`}
+                            >
+                              <input
+                                type="radio"
+                                name="repaymentSchedule"
+                                value={option.value}
+                                checked={formData.repaymentSchedule === option.value}
+                                onChange={handleChange}
+                                className="sr-only"
+                              />
+                              <CreditCard className="h-5 w-5 mr-2 text-gray-600" />
+                              <span className="font-semibold text-gray-700">{option.label}</span>
+                              {formData.repaymentSchedule === option.value && (
+                                <CheckCircle className="absolute top-2 right-2 h-5 w-5 text-primary-600" />
+                              )}
+                            </motion.label>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Step 4: Additional Details */}
+                  {currentStep === 4 && (
+                    <motion.div
+                      key="step4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="space-y-6"
+                    >
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Collateral Notes (Optional)
+                        </label>
+                        <textarea
+                          name="collateralNotes"
+                          value={formData.collateralNotes}
+                          onChange={handleChange}
+                          placeholder="Describe any collateral you can offer (e.g., property, vehicle, equipment)..."
+                          rows="5"
+                          className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none focus:border-primary-500 transition-all resize-none"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">This helps increase trust and may improve loan approval chances</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Attachments (Optional)
+                        </label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-400 transition-all">
+                          <input
+                            type="file"
+                            id="file-upload"
+                            multiple
+                            accept="image/*,.pdf"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                          />
+                          <label
+                            htmlFor="file-upload"
+                            className="cursor-pointer"
+                          >
+                            <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                            <p className="text-sm font-semibold text-gray-700 mb-1">
+                              Click to upload or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Images or PDF (Max 5MB per file)
+                            </p>
+                          </label>
+                        </div>
+
+                        {formData.attachments.length > 0 && (
+                          <div className="mt-4 space-y-2">
+                            {formData.attachments.map((file, index) => (
+                              <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200"
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <Paperclip className="h-5 w-5 text-gray-400" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">{file.name}</p>
+                                    <p className="text-xs text-gray-500">
+                                      {(file.size / 1024).toFixed(2)} KB
+                                    </p>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeAttachment(index)}
+                                  className="text-red-500 hover:text-red-700"
+                                >
+                                  <X className="h-5 w-5" />
+                                </button>
+                              </motion.div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
