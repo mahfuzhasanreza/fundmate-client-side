@@ -124,5 +124,54 @@ const AllLoanPost = () => {
       },
       hasCollateral: true,
       urgency: 'medium'
-    },]
-  }
+    },
+    {
+      id: 'LN-2024-005',
+      title: 'Vehicle Purchase Loan',
+      amount: 18000,
+      purpose: 'Vehicle Purchase',
+      description: 'Need reliable transportation for work. Steady income and excellent credit history...',
+      tenure: 30,
+      preferredInterest: 9.1,
+      postedDate: '2024-11-19',
+      deadline: '2024-12-10',
+      status: 'active',
+      offersCount: 9,
+      viewsCount: 78,
+      borrower: {
+        name: 'Lisa Martinez',
+        avatar: '👩‍💻',
+        rating: 4.9,
+        verified: true,
+        location: 'Miami, FL',
+        successfulLoans: 4
+      },
+      hasCollateral: true,
+      urgency: 'medium'
+    },
+    {
+      id: 'LN-2024-006',
+      title: 'Debt Consolidation Loan',
+      amount: 20000,
+      purpose: 'Debt Consolidation',
+      description: 'Consolidating multiple debts into single payment. Improved cash flow expected...',
+      tenure: 42,
+      preferredInterest: 7.8,
+      postedDate: '2024-11-21',
+      deadline: '2024-12-25',
+      status: 'active',
+      offersCount: 7,
+      viewsCount: 95,
+      borrower: {
+        name: 'Robert Davis',
+        avatar: '👨‍💼',
+        rating: 4.5,
+        verified: false,
+        location: 'Dallas, TX',
+        successfulLoans: 1
+      },
+      hasCollateral: false,
+      urgency: 'low'
+    }
+  ]
+}
