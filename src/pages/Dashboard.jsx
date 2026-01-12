@@ -37,6 +37,7 @@ const Dashboard = () => {
     role: 'Borrower, Lender & Donor',
     memberSince: 'Jan 2024'
   }
+
   // Dashboard statistics
   const stats = [
     {
@@ -217,7 +218,7 @@ const Dashboard = () => {
     }
   }
 
-return (
+  return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex">
         {/* Sidebar */}
@@ -439,3 +440,68 @@ const OverviewSection = ({ stats, recentActivities, upcomingPayments, activeCamp
     </div>
   )
 }
+
+// Placeholder sections
+const LoanRequestsSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">My Loan Requests</h1>
+    <p className="text-gray-600">View and manage all your loan requests here.</p>
+    {/* Add loan requests content */}
+  </div>
+)
+
+const CampaignsSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">My Campaigns</h1>
+    <p className="text-gray-600">Manage your crowdfunding campaigns.</p>
+    {/* Add campaigns content */}
+  </div>
+)
+
+const OffersSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Offers</h1>
+    <p className="text-gray-600">View offers made and received.</p>
+    {/* Add offers content */}
+  </div>
+)
+
+const RepaymentsSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Repayments</h1>
+    <p className="text-gray-600">Track your loan repayments.</p>
+    {/* Add repayments content */}
+  </div>
+)
+
+const DonationsSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Donations History</h1>
+    <p className="text-gray-600">View all your donation history.</p>
+    {/* Add donations content */}
+  </div>
+)
+
+const MessagesSection = () => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Messages</h1>
+    <p className="text-gray-600">Your messages and notifications.</p>
+    {/* Add messages content */}
+  </div>
+)
+
+const SettingsSection = ({ user }) => (
+  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Settings</h1>
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-semibold text-gray-900">Profile Information</h3>
+        <p className="text-gray-600">Name: {user.name}</p>
+        <p className="text-gray-600">Role: {user.role}</p>
+        <p className="text-gray-600">Member Since: {user.memberSince}</p>
+      </div>
+    </div>
+  </div>
+)
+
+export default Dashboard
