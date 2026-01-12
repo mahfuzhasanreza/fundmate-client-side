@@ -250,7 +250,120 @@ const CampaignCreate = () => {
           </div>
         </motion.div>
 
+        {/* Form Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+        >
+          <div className="p-8">
+            {/* Step 1: Basic Info */}
+            {currentStep === 1 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Campaign Information</h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Campaign Title *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
+                      placeholder="Enter a compelling campaign title"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all ${
+                        errors.title ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                      }`}
+                    />
+                    {errors.title && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.title}
+                      </p>
+                    )}
+                  </div>
 
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Category *
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => handleInputChange('category', e.target.value)}
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all ${
+                        errors.category ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                      }`}
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+                    {errors.category && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.category}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Target Amount (৳) *
+                    </label>
+                    <div className="relative">
+                      <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <input
+                        type="number"
+                        value={formData.targetAmount}
+                        onChange={(e) => handleInputChange('targetAmount', e.target.value)}
+                        placeholder="10000"
+                        min="100"
+                        className={`w-full pl-10 pr-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all ${
+                          errors.targetAmount ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                        }`}
+                      />
+                    </div>
+                    {errors.targetAmount && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.targetAmount}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Campaign Duration (days) *
+                    </label>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <input
+                        type="number"
+                        value={formData.duration}
+                        onChange={(e) => handleInputChange('duration', e.target.value)}
+                        placeholder="30"
+                        min="1"
+                        max="365"
+                        className={`w-full pl-10 pr-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all ${
+                          errors.duration ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                        }`}
+                      />
+                    </div>
+                    {formData.duration && (
+                      <p className="text-sm text-gray-600 mt-1">
+                        Campaign ends on: {calculateEndDate()}
+                      </p>
+                    )}
+                    {errors.duration && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.duration}
+                      </p>
+                    )}
+                  </div>
 
         </div>
         </div>
