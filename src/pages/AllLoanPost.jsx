@@ -190,4 +190,29 @@ const AllLoanPost = () => {
     medium: 'bg-yellow-100 text-yellow-700',
     low: 'bg-primary-100 text-primary-700'
   }
+
+  const filteredLoans = loanPosts.filter(loan => {
+    const matchesSearch = loan.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         loan.purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         loan.borrower.name.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesCategory = selectedCategory === 'all' || loan.purpose === selectedCategory
+    
+    return matchesSearch && matchesCategory
+  }).sort((a, b) => {
+    switch (sortBy) {
+      case 'recent':
+        return new Date(b.postedDate) - new Date(a.postedDate)
+      case 'amount-high':
+        return b.amount - a.amount
+      case 'amount-low':
+        return a.amount - b.amount
+      case 'interest-low':
+        return a.preferredInterest - b.preferredInterest
+      case 'deadline':
+        return new Date(a.deadline) - new Date(b.deadline)
+      default:
+        return 0
+    }
+  })
 }
