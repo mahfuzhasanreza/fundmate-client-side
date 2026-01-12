@@ -368,3 +368,131 @@ const LoanRequest = () => {
                           </p>
                         )}
                       </div>
+
+                      {formData.tenure === 'custom' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                        >
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Custom Tenure (Months) *
+                          </label>
+                          <div className="relative">
+                            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <input
+                              type="number"
+                              name="customTenure"
+                              value={formData.customTenure}
+                              onChange={handleChange}
+                              placeholder="Enter months"
+                              min="1"
+                              max="60"
+                              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none transition-all ${
+                                errors.customTenure ? 'border-red-500' : 'border-gray-200 focus:border-primary-500'
+                              }`}
+                            />
+                          </div>
+                          {errors.customTenure && (
+                            <p className="text-red-500 text-sm mt-1 flex items-center">
+                              <AlertCircle className="h-4 w-4 mr-1" />
+                              {errors.customTenure}
+                            </p>
+                          )}
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {/* Step 3: Interest & Repayment */}
+                  {currentStep === 3 && (
+                    <motion.div
+                      key="step3"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="space-y-6"
+                    >
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                          Interest Preference *
+                        </label>
+                        <div className="space-y-3">
+                          <motion.label
+                            whileHover={{ scale: 1.01 }}
+                            className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                              formData.interestType === '0'
+                                ? 'border-primary-600 bg-primary-50'
+                                : 'border-gray-200 hover:border-primary-300'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="interestType"
+                              value="0"
+                              checked={formData.interestType === '0'}
+                              onChange={handleChange}
+                              className="h-4 w-4 text-primary-600"
+                            />
+                            <div className="ml-3 flex-1">
+                              <span className="font-semibold text-gray-900">0% Interest (Interest-Free)</span>
+                              <p className="text-sm text-gray-600">No interest charged on the loan</p>
+                            </div>
+                          </motion.label>
+
+                          <motion.label
+                            whileHover={{ scale: 1.01 }}
+                            className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                              formData.interestType === 'custom'
+                                ? 'border-primary-600 bg-primary-50'
+                                : 'border-gray-200 hover:border-primary-300'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="interestType"
+                              value="custom"
+                              checked={formData.interestType === 'custom'}
+                              onChange={handleChange}
+                              className="h-4 w-4 text-primary-600"
+                            />
+                            <div className="ml-3 flex-1">
+                              <span className="font-semibold text-gray-900">Custom Interest Rate</span>
+                              <p className="text-sm text-gray-600">Specify your preferred rate</p>
+                            </div>
+                          </motion.label>
+                        </div>
+                      </div>
+
+                      {formData.interestType === 'custom' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                        >
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Interest Rate (%) *
+                          </label>
+                          <div className="relative">
+                            <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <input
+                              type="number"
+                              name="customInterest"
+                              value={formData.customInterest}
+                              onChange={handleChange}
+                              placeholder="7.5"
+                              step="0.1"
+                              min="0"
+                              max="30"
+                              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none transition-all ${
+                                errors.customInterest ? 'border-red-500' : 'border-gray-200 focus:border-primary-500'
+                              }`}
+                            />
+                          </div>
+                          {errors.customInterest && (
+                            <p className="text-red-500 text-sm mt-1 flex items-center">
+                              <AlertCircle className="h-4 w-4 mr-1" />
+                              {errors.customInterest}
+                            </p>
+                          )}
+                          <p className="text-xs text-gray-500 mt-1">Interest rate between 0% - 30%</p>
+                        </motion.div>
+                      )}
