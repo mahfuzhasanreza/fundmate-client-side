@@ -19,3 +19,11 @@ import {
   Target
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+
+const AllLoanPost = () => {
+  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [sortBy, setSortBy] = useState('recent')
+  const [showFilters, setShowFilters] = useState(false)
+}
