@@ -40,4 +40,18 @@ const CampaignCreate = () => {
   const [dragOver, setDragOver] = useState(false)
   const [errors, setErrors] = useState({})
 
+  const categories = [
+    'Healthcare',
+    'Emergency Relief', 
+    'Education',
+    'Environment',
+    'Community Development',
+    'Animal Welfare',
+    'Disaster Relief',
+    'Human Rights',
+    'Arts & Culture',
+    'Technology',
+    'Sports',
+    'Other'
+  ]
 }
