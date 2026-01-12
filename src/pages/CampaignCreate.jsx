@@ -140,4 +140,61 @@ const CampaignCreate = () => {
       tags: prev.tags.filter(tag => tag !== tagToRemove)
     }))
   }
+
+  const validateStep = (step) => {
+    const newErrors = {}
+    
+    switch (step) {
+      case 1:
+        if (!formData.title.trim()) newErrors.title = 'Title is required'
+        if (!formData.category) newErrors.category = 'Category is required'
+        if (!formData.targetAmount || formData.targetAmount <= 0) newErrors.targetAmount = 'Valid target amount is required'
+        if (!formData.duration || formData.duration <= 0) newErrors.duration = 'Campaign duration is required'
+        if (!formData.location.trim()) newErrors.location = 'Location is required'
+        if (!formData.shortDescription.trim()) newErrors.shortDescription = 'Short description is required'
+        break
+      case 2:
+        if (!formData.fullStory.trim()) newErrors.fullStory = 'Campaign story is required'
+        if (formData.images.length === 0) newErrors.images = 'At least one image is required'
+        break
+      case 3:
+        // Optional validations for settings
+        break
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => Math.min(prev + 1, 4))
+    }
+  }
+
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 1))
+  }
+
+  const handleSubmit = () => {
+    if (validateStep(currentStep)) {
+      // Handle campaign creation
+      console.log('Creating campaign:', formData)
+      // Redirect to campaigns page or success page
+      navigate('/campaigns')
+    }
+  }
+
+  const calculateEndDate = () => {
+    if (formData.duration) {
+      const endDate = new Date()
+      endDate.setDate(endDate.getDate() + parseInt(formData.duration))
+      return endDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    }
+    return ''
+  }
 }
