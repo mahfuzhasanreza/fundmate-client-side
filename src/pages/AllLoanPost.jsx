@@ -332,8 +332,19 @@ const AllLoanPost = () => {
             </div>
           </div>
         </motion.div>
-        </div>
-        </div>
-    )}
+        
+                {/* Loan Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filteredLoans.map((loan, index) => (
+            <motion.div
+              key={loan.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
+              onClick={() => handleLoanClick(loan.id)}
+              className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 cursor-pointer group"
+            >
+
 
 
