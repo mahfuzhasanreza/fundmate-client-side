@@ -99,3 +99,55 @@ const LoanDetails = () => {
       color: 'text-purple-600'
     }
   ]
+
+  // Offers data
+  const offers = [
+    {
+      id: 1,
+      lenderName: 'John Martinez',
+      lenderAvatar: '👨‍💼',
+      lenderRating: 4.9,
+      amount: 15000,
+      interestRate: 7.5,
+      tenure: 24,
+      message: 'Great business plan! I\'ve reviewed your financials and I\'m confident in your success.',
+      submittedDate: '2024-11-16',
+      status: 'pending'
+    },
+    {
+      id: 2,
+      lenderName: 'Emily Chen',
+      lenderAvatar: '👩‍🎓',
+      lenderRating: 4.7,
+      amount: 12000,
+      interestRate: 8.0,
+      tenure: 24,
+      message: 'Your bakery has excellent reviews! Happy to support local businesses.',
+      submittedDate: '2024-11-18',
+      status: 'pending'
+    },
+    {
+      id: 3,
+      lenderName: 'Michael Davis',
+      lenderAvatar: '👨‍💻',
+      lenderRating: 4.8,
+      amount: 15000,
+      interestRate: 7.8,
+      tenure: 20,
+      message: 'Shorter tenure with competitive rate. Let\'s discuss terms.',
+      submittedDate: '2024-11-20',
+      status: 'pending'
+    },
+    {
+      id: 4,
+      lenderName: 'Lisa Rodriguez',
+      lenderAvatar: '👩‍💼',
+      lenderRating: 5.0,
+      amount: 10000,
+      interestRate: 6.5,
+      tenure: 24,
+      message: 'Partial funding available at excellent rate. Can combine with other lenders.',
+      submittedDate: '2024-11-22',
+      status: 'pending'
+    }
+  ]
