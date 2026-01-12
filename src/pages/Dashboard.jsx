@@ -37,7 +37,6 @@ const Dashboard = () => {
     role: 'Borrower, Lender & Donor',
     memberSince: 'Jan 2024'
   }
-
   // Dashboard statistics
   const stats = [
     {
@@ -113,3 +112,108 @@ const Dashboard = () => {
       textColor: 'text-indigo-600'
     }
   ]
+
+  // Recent activities
+  const recentActivities = [
+    {
+      id: 1,
+      type: 'loan_approved',
+      title: 'Loan Request Approved',
+      description: 'Your business loan of ৳5,000 has been approved',
+      time: '2 hours ago',
+      icon: CheckCircle,
+      color: 'text-primary-600'
+    },
+    {
+      id: 2,
+      type: 'offer_received',
+      title: 'New Loan Offer',
+      description: 'John Doe offered ৳2,000 at 7.5% interest',
+      time: '5 hours ago',
+      icon: UserCheck,
+      color: 'text-blue-600'
+    },
+    {
+      id: 3,
+      type: 'donation',
+      title: 'Donation Made',
+      description: 'You donated ৳100 to Medical Emergency Fund',
+      time: '1 day ago',
+      icon: Heart,
+      color: 'text-pink-600'
+    },
+    {
+      id: 4,
+      type: 'payment',
+      title: 'Payment Received',
+      description: 'Received ৳500 loan repayment from Sarah',
+      time: '1 day ago',
+      icon: DollarSign,
+      color: 'text-primary-600'
+    },
+  ]
+
+  // Upcoming payments
+  const upcomingPayments = [
+    {
+      id: 1,
+      title: 'Business Loan',
+      amount: 450,
+      dueDate: '2025-12-03',
+      status: 'upcoming'
+    },
+    {
+      id: 2,
+      title: 'Education Loan',
+      amount: 400,
+      dueDate: '2025-12-08',
+      status: 'upcoming'
+    }
+  ]
+
+  // Active campaigns
+  const activeCampaigns = [
+    {
+      id: 1,
+      title: 'My Community Project',
+      raised: 8500,
+      goal: 10000,
+      backers: 45,
+      daysLeft: 12
+    }
+  ]
+
+  const sidebarItems = [
+    { id: 'overview', icon: LayoutDashboard, label: 'Overview' },
+    { id: 'loan-requests', icon: FileText, label: 'My Loan Requests' },
+    { id: 'campaigns', icon: Target, label: 'My Campaigns' },
+    { id: 'offers', icon: UserCheck, label: 'Offers' },
+    { id: 'repayments', icon: CreditCard, label: 'Repayments' },
+    { id: 'donations', icon: Heart, label: 'Donations History' },
+    { id: 'messages', icon: MessageSquare, label: 'Messages' },
+    { id: 'settings', icon: Settings, label: 'Settings' }
+  ]
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'overview':
+        return <OverviewSection stats={stats} recentActivities={recentActivities} upcomingPayments={upcomingPayments} activeCampaigns={activeCampaigns} />
+      case 'loan-requests':
+        return <LoanRequestsSection />
+      case 'campaigns':
+        return <CampaignsSection />
+      case 'offers':
+        return <OffersSection />
+      case 'repayments':
+        return <RepaymentsSection />
+      case 'donations':
+        return <DonationsSection />
+      case 'messages':
+        return <MessagesSection />
+      case 'settings':
+        return <SettingsSection user={user} />
+      default:
+        return <OverviewSection stats={stats} recentActivities={recentActivities} upcomingPayments={upcomingPayments} activeCampaigns={activeCampaigns} />
+    }
+  }
+}
