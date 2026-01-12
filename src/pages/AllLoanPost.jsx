@@ -174,4 +174,20 @@ const AllLoanPost = () => {
       urgency: 'low'
     }
   ]
+
+    const categories = [
+    'all',
+    'Business Expansion',
+    'Medical Emergency', 
+    'Education',
+    'Home Improvement',
+    'Vehicle Purchase',
+    'Debt Consolidation'
+  ]
+
+  const urgencyColors = {
+    high: 'bg-red-100 text-red-700',
+    medium: 'bg-yellow-100 text-yellow-700',
+    low: 'bg-primary-100 text-primary-700'
+  }
 }
