@@ -578,6 +578,77 @@ const CampaignCreate = () => {
               </div>
             )}
 
+            {/* Step 4: Preview */}
+            {currentStep === 4 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Campaign Preview</h2>
+                
+                {/* Preview Card */}
+                <div className="border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="relative h-48 bg-gray-200">
+                    {formData.images[0] && (
+                      <img
+                        src={formData.images[0].url}
+                        alt="Campaign preview"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    <div className="absolute top-4 left-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        formData.urgency === 'urgent' ? 'bg-red-100 text-red-700' :
+                        formData.urgency === 'high' ? 'bg-orange-100 text-orange-700' :
+                        formData.urgency === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-primary-100 text-primary-700'
+                      }`}>
+                        {urgencyLevels.find(l => l.value === formData.urgency)?.label}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{formData.title}</h3>
+                    <p className="text-gray-600 mb-4">{formData.shortDescription}</p>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <p className="text-sm text-gray-600">Target Amount</p>
+                        <p className="text-lg font-bold text-gray-900">৳{Number(formData.targetAmount).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Duration</p>
+                        <p className="text-lg font-bold text-gray-900">{formData.duration} days</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between text-sm text-gray-600">
+                      <span className="flex items-center">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {formData.location}
+                      </span>
+                      <span className="flex items-center">
+                        <Target className="h-4 w-4 mr-1" />
+                        {formData.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-primary-50 border border-primary-200 rounded-xl p-4">
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary-600 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-primary-800 mb-1">Ready to Launch!</p>
+                      <p className="text-primary-700 text-sm">
+                        Your campaign will be reviewed and published within 24 hours. 
+                        You'll receive an email confirmation once it's live.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
 
 
   
