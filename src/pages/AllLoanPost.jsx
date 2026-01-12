@@ -175,7 +175,7 @@ const AllLoanPost = () => {
     }
   ]
 
-    const categories = [
+  const categories = [
     'all',
     'Business Expansion',
     'Medical Emergency', 
@@ -216,7 +216,7 @@ const AllLoanPost = () => {
     }
   })
 
-    const calculateMonthlyPayment = (principal, rate, months) => {
+  const calculateMonthlyPayment = (principal, rate, months) => {
     const monthlyRate = rate / 100 / 12
     const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
     return payment.toFixed(2)
@@ -231,10 +231,10 @@ const AllLoanPost = () => {
     navigate(`/loan/${loanId}`)
   }
 
-    return (
+  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-                {/* Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -258,7 +258,7 @@ const AllLoanPost = () => {
           </motion.button>
         </motion.div>
 
-                {/* Search and Filters */}
+        {/* Search and Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -332,8 +332,8 @@ const AllLoanPost = () => {
             </div>
           </div>
         </motion.div>
-        
-                {/* Loan Cards Grid */}
+
+        {/* Loan Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredLoans.map((loan, index) => (
             <motion.div
@@ -345,7 +345,7 @@ const AllLoanPost = () => {
               onClick={() => handleLoanClick(loan.id)}
               className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 cursor-pointer group"
             >
-                            {/* Card Header */}
+              {/* Card Header */}
               <div className="p-6 pb-4">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
@@ -390,7 +390,81 @@ const AllLoanPost = () => {
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                   {loan.description}
                 </p>
-                            </motion.div>
+
+                {/* Loan Details Grid */}
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="text-center p-3 bg-primary-50 rounded-lg">
+                    <DollarSign className="h-5 w-5 text-primary-600 mx-auto mb-1" />
+                  <p className="text-lg font-bold text-gray-900">৳{loan.amount.toLocaleString()}</p>
+                    <p className="text-xs text-gray-600">Amount</p>
+                  </div>
+                  <div className="text-center p-3 bg-blue-50 rounded-lg">
+                    <Calendar className="h-5 w-5 text-blue-600 mx-auto mb-1" />
+                    <p className="text-lg font-bold text-gray-900">{loan.tenure}m</p>
+                    <p className="text-xs text-gray-600">Tenure</p>
+                  </div>
+                </div>
+
+                {/* Interest and Monthly Payment */}
+                <div className="flex justify-between items-center mb-4 p-3 bg-gray-50 rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-600">Preferred Rate</p>
+                    <p className="font-bold text-gray-900">{loan.preferredInterest}%</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Monthly Payment*</p>
+                    <p className="font-bold text-primary-600">
+                      ৳{calculateMonthlyPayment(loan.amount, loan.preferredInterest, loan.tenure)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center">
+                      <Eye className="h-4 w-4 mr-1" />
+                      <span>{loan.viewsCount}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <MessageSquare className="h-4 w-4 mr-1" />
+                      <span>{loan.offersCount} offers</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center text-orange-600">
+                    <Clock className="h-4 w-4 mr-1" />
+                    <span>{getDaysLeft(loan.deadline)} days left</span>
+                  </div>
+                </div>
+
+                {/* Purpose Badge */}
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-secondary-100 text-secondary-700">
+                    <Target className="h-3 w-3 mr-1" />
+                    {loan.purpose}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {new Date(loan.postedDate).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* Card Footer */}
+              <div className="px-6 pb-6">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex items-center justify-center space-x-2 bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 transition-all group-hover:shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleLoanClick(loan.id)
+                  }}
+                >
+                  <span>View Details</span>
+                  <ArrowRight className="h-4 w-4" />
+                </motion.button>
+              </div>
+            </motion.div>
           ))}
         </div>
 
@@ -430,8 +504,3 @@ const AllLoanPost = () => {
 }
 
 export default AllLoanPost
-
-          
-
-
-
