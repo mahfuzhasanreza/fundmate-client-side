@@ -418,5 +418,62 @@ const CampaignCreate = () => {
                 </div>
               </div>
             )}
-            
+
+            {/* Step 2: Story & Media */}
+            {currentStep === 2 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Tell Your Story</h2>
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Campaign Story *
+                  </label>
+                  <textarea
+                    value={formData.fullStory}
+                    onChange={(e) => handleInputChange('fullStory', e.target.value)}
+                    placeholder="Tell the full story of your campaign. Explain why it matters, how the funds will be used, and the impact it will create..."
+                    rows="8"
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none ${
+                      errors.fullStory ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-primary-500'
+                    }`}
+                  />
+                  {errors.fullStory && (
+                    <p className="text-red-500 text-sm mt-1 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                      {errors.fullStory}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Campaign Images * (Max 5 images)
+                  </label>
+                  <div
+                    className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
+                      dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'
+                    } ${errors.images ? 'border-red-300' : ''}`}
+                    onDrop={handleDrop}
+                    onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+                    onDragLeave={() => setDragOver(false)}
+                  >
+                    <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600 mb-2">Drag and drop images here, or</p>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(e.target.files)}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="bg-primary-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-primary-700 transition-colors inline-block"
+                    >
+                      Choose Images
+                    </label>
+                    <p className="text-sm text-gray-500 mt-2">PNG, JPG, JPEG up to 10MB each</p>
+                  </div>
+
   
