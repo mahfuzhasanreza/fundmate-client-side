@@ -212,6 +212,46 @@ const CampaignCreate = () => {
             Share your cause with the world and raise funds to make a positive impact
           </p>
         </motion.div>
+
+        {/* Progress Steps */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-8"
+        >
+          <div className="flex items-center justify-between">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all ${
+                  currentStep >= step.id 
+                    ? 'bg-primary-600 border-primary-600 text-white' 
+                    : 'border-gray-300 text-gray-500'
+                }`}>
+                  {currentStep > step.id ? (
+                    <CheckCircle className="h-5 w-5" />
+                  ) : (
+                    <span className="font-semibold">{step.id}</span>
+                  )}
+                </div>
+                <div className="ml-3 hidden sm:block">
+                  <p className={`font-semibold ${currentStep >= step.id ? 'text-primary-600' : 'text-gray-500'}`}>
+                    {step.title}
+                  </p>
+                  <p className="text-sm text-gray-500">{step.description}</p>
+                </div>
+                {index < steps.length - 1 && (
+                  <div className={`hidden sm:block w-20 h-1 mx-4 rounded-full ${
+                    currentStep > step.id ? 'bg-primary-600' : 'bg-gray-200'
+                  }`} />
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+
+
         </div>
         </div>
     )
