@@ -6,6 +6,7 @@ import HowItWorks from '../components/landing/HowItWorks'
 import Features from '../components/landing/Features'
 import Services from '../components/landing/Services'
 import Stats from '../components/landing/Stats'
+import FAQ from '../components/landing/FAQ'
 import CallToAction from '../components/landing/CallToAction'
 
 const LandingPage = () => {
@@ -18,6 +19,7 @@ const LandingPage = () => {
       <Stats />
       <Features />
       <Services />
+      <FAQ />
       <CallToAction />
     </div>
   )
