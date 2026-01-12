@@ -308,3 +308,134 @@ return (
     </div>
   )
 }
+
+// Overview Section Component
+const OverviewSection = ({ stats, recentActivities, upcomingPayments, activeCampaigns }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, Mahfuz! 👋</h1>
+        <p className="text-gray-600">Here's what's happening with your account today.</p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, index) => {
+          const Icon = stat.icon
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(0,0,0,0.1)" }}
+              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className={`${stat.bgColor} ${stat.textColor} p-3 rounded-xl`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
+              <p className="text-sm font-medium text-gray-600 mb-2">{stat.title}</p>
+              <p className="text-xs text-gray-500">{stat.change}</p>
+            </motion.div>
+          )
+        })}
+      </div>
+
+      {/* Two Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+          <div className="space-y-4">
+            {recentActivities.map((activity) => {
+              const Icon = activity.icon
+              return (
+                <motion.div
+                  key={activity.id}
+                  whileHover={{ x: 5 }}
+                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-all cursor-pointer"
+                >
+                  <div className={`${activity.color} p-2 rounded-lg bg-opacity-10`}>
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{activity.title}</h3>
+                    <p className="text-sm text-gray-600">{activity.description}</p>
+                    <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Sidebar Cards */}
+        <div className="space-y-6">
+          {/* Upcoming Payments */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Upcoming Payments</h2>
+            <div className="space-y-3">
+              {upcomingPayments.map((payment) => (
+                <div key={payment.id} className="p-4 bg-orange-50 rounded-lg border border-orange-100">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-gray-900">{payment.title}</h3>
+                    <span className="text-lg font-bold text-orange-600">৳{payment.amount}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>{payment.dueDate}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full mt-4 py-2 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
+            >
+              Make Payment
+            </motion.button>
+          </div>
+
+          {/* Active Campaign */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Active Campaign</h2>
+            {activeCampaigns.map((campaign) => {
+              const progress = (campaign.raised / campaign.goal) * 100
+              return (
+                <div key={campaign.id}>
+                  <h3 className="font-semibold text-gray-900 mb-3">{campaign.title}</h3>
+                  <div className="mb-3">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="font-semibold text-gray-900">৳{campaign.raised.toLocaleString()}</span>
+                      <span className="text-gray-600">of ৳{campaign.goal.toLocaleString()}</span>
+                    </div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-primary-600 to-primary-500"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <Users className="h-4 w-4 mr-1" />
+                      <span>{campaign.backers} backers</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>{campaign.daysLeft} days left</span>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
