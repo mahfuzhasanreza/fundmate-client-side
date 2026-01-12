@@ -54,4 +54,25 @@ const CampaignCreate = () => {
     'Sports',
     'Other'
   ]
+
+  const urgencyLevels = [
+    { value: 'urgent', label: 'Urgent', description: 'Immediate action required', color: 'red' },
+    { value: 'high', label: 'High Priority', description: 'Time-sensitive campaign', color: 'orange' },
+    { value: 'medium', label: 'Medium Priority', description: 'Standard timeline', color: 'yellow' },
+    { value: 'low', label: 'Standard', description: 'Flexible timeline', color: 'green' }
+  ]
+
+  const popularTags = [
+    'community', 'education', 'health', 'emergency', 'children', 'elderly',
+    'environment', 'sustainability', 'technology', 'innovation', 'local',
+    'international', 'volunteer', 'nonprofit', 'charity', 'fundraising'
+  ]
+
+  const steps = [
+    { id: 1, title: 'Basic Info', description: 'Campaign details' },
+    { id: 2, title: 'Story & Media', description: 'Tell your story' },
+    { id: 3, title: 'Settings', description: 'Final details' },
+    { id: 4, title: 'Preview', description: 'Review & publish' }
+  ]
+
 }
