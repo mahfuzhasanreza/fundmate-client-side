@@ -257,7 +257,83 @@ const AllLoanPost = () => {
             <ArrowRight className="h-4 w-4" />
           </motion.button>
         </motion.div>
+
+                {/* Search and Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-8"
+        >
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search loans by title, purpose, or borrower..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all cursor-pointer"
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>
+                    {category === 'all' ? 'All Categories' : category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sort */}
+            <div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all cursor-pointer"
+              >
+                <option value="recent">Most Recent</option>
+                <option value="amount-high">Highest Amount</option>
+                <option value="amount-low">Lowest Amount</option>
+                <option value="interest-low">Lowest Interest</option>
+                <option value="deadline">Deadline Soon</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+            <p className="text-gray-600">
+              Showing <span className="font-semibold">{filteredLoans.length}</span> loan requests
+            </p>
+            <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                <span>Urgent</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <span>Medium</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-primary-400 rounded-full"></div>
+                <span>Low Priority</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
         </div>
-        </div>)
-}
+        </div>
+    )}
+
 
