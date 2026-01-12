@@ -617,3 +617,152 @@ const LoanRequest = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+                  {currentStep > 1 ? (
+                    <motion.button
+                      type="button"
+                      onClick={prevStep}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center space-x-2 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all"
+                    >
+                      <ArrowLeft className="h-5 w-5" />
+                      <span>Previous</span>
+                    </motion.button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => navigate('/dashboard')}
+                      className="text-gray-600 hover:text-gray-900 font-semibold"
+                    >
+                      Cancel
+                    </button>
+                  )}
+
+                  {currentStep < totalSteps ? (
+                    <motion.button
+                      type="button"
+                      onClick={nextStep}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all"
+                    >
+                      <span>Next Step</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(22, 163, 74, 0.3)" }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all"
+                    >
+                      <CheckCircle className="h-5 w-5" />
+                      <span>Submit Request</span>
+                    </motion.button>
+                  )}
+                </div>
+              </form>
+            </motion.div>
+          </div>
+
+          {/* Preview Section */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+              >
+                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <Info className="h-5 w-5 mr-2 text-primary-600" />
+                  Loan Preview
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Title</p>
+                    <p className="font-semibold text-gray-900">
+                      {formData.loanTitle || 'Not specified'}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Amount</p>
+                      <p className="font-semibold text-gray-900">
+                        ৳{formData.amount || '0'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Tenure</p>
+                      <p className="font-semibold text-gray-900">
+                        {formData.tenure === 'custom' 
+                          ? `${formData.customTenure || '0'} months`
+                          : formData.tenure 
+                            ? `${formData.tenure} months`
+                            : 'Not set'
+                        }
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Purpose</p>
+                    <p className="font-semibold text-gray-900">
+                      {formData.purpose || 'Not specified'}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Interest Rate</p>
+                    <p className="font-semibold text-gray-900">
+                      {formData.interestType === '0' 
+                        ? '0% (Interest-Free)'
+                        : formData.customInterest 
+                          ? `${formData.customInterest}%`
+                          : 'Not set'
+                      }
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Repayment</p>
+                    <p className="font-semibold text-gray-900 capitalize">
+                      {formData.repaymentSchedule.replace('-', ' ')}
+                    </p>
+                  </div>
+
+                  {formData.repaymentSchedule === 'monthly' && (
+                    <div className="pt-4 border-t border-gray-200">
+                      <p className="text-xs text-gray-500 mb-1">Estimated Monthly Payment</p>
+                      <p className="text-2xl font-bold text-primary-600">
+                        ৳{calculateMonthlyPayment()}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.interestType === '0' ? 'No interest' : 'Including interest'}
+                      </p>
+                    </div>
+                  )}
+
+                  {formData.attachments.length > 0 && (
+                    <div className="pt-4 border-t border-gray-200">
+                      <p className="text-xs text-gray-500 mb-1">Attachments</p>
+                      <p className="font-semibold text-gray-900">
+                        {formData.attachments.length} file(s)
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default LoanRequest
