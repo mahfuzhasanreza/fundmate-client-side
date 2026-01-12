@@ -198,7 +198,7 @@ const CampaignCreate = () => {
     return ''
   }
 
-    return (
+  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
@@ -475,7 +475,7 @@ const CampaignCreate = () => {
                     </label>
                     <p className="text-sm text-gray-500 mt-2">PNG, JPG, JPEG up to 10MB each</p>
                   </div>
-
+                  
                   {/* Image Previews */}
                   {formData.images.length > 0 && (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
@@ -649,6 +649,45 @@ const CampaignCreate = () => {
             )}
           </div>
 
+          {/* Navigation Buttons */}
+          <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
+            <div className="flex justify-between">
+              <button
+                onClick={prevStep}
+                disabled={currentStep === 1}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+                  currentStep === 1 
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                    : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Previous</span>
+              </button>
 
+              {currentStep < 4 ? (
+                <button
+                  onClick={nextStep}
+                  className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all"
+                >
+                  <span>Next</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  className="flex items-center space-x-2 px-8 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all shadow-lg"
+                >
+                  <Gift className="h-5 w-5" />
+                  <span>Publish Campaign</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
 
-  
+export default CampaignCreate
