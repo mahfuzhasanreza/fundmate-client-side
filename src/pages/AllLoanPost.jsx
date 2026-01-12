@@ -234,6 +234,30 @@ const AllLoanPost = () => {
     return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+                {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Browse Loan Requests</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            Discover investment opportunities and help others achieve their financial goals
+          </p>
+          
+          {/* Request Loan Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/loan-request')}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+          >
+            <DollarSign className="h-5 w-5" />
+            <span>Request a Loan</span>
+            <ArrowRight className="h-4 w-4" />
+          </motion.button>
+        </motion.div>
         </div>
         </div>)
-        }
+}
+
