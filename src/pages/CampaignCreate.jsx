@@ -20,3 +20,24 @@ import {
   Gift
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+
+const CampaignCreate = () => {
+  const navigate = useNavigate()
+  const [currentStep, setCurrentStep] = useState(1)
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    targetAmount: '',
+    duration: '',
+    location: '',
+    shortDescription: '',
+    fullStory: '',
+    images: [],
+    tags: [],
+    urgency: 'medium'
+  })
+  const [imageFiles, setImageFiles] = useState([])
+  const [dragOver, setDragOver] = useState(false)
+  const [errors, setErrors] = useState({})
+
+}
