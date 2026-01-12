@@ -345,6 +345,53 @@ const AllLoanPost = () => {
               onClick={() => handleLoanClick(loan.id)}
               className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 cursor-pointer group"
             >
+                            {/* Card Header */}
+              <div className="p-6 pb-4">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="text-3xl">{loan.borrower.avatar}</div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 flex items-center">
+                        {loan.borrower.name}
+                        {loan.borrower.verified && (
+                          <CheckCircle className="h-4 w-4 text-primary-500 ml-2" />
+                        )}
+                      </h3>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <div className="flex items-center">
+                          <Star className="h-3 w-3 text-yellow-400 mr-1" />
+                          <span className="text-gray-600">{loan.borrower.rating}</span>
+                        </div>
+                        <span className="text-gray-300">•</span>
+                        <div className="flex items-center text-gray-600">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          <span>{loan.borrower.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end space-y-2">
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${urgencyColors[loan.urgency]}`}>
+                      {loan.urgency === 'high' ? 'Urgent' : loan.urgency === 'medium' ? 'Medium' : 'Standard'}
+                    </span>
+                    {loan.hasCollateral && (
+                      <div className="flex items-center text-xs text-primary-600">
+                        <Shield className="h-3 w-3 mr-1" />
+                        <span>Collateral</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  {loan.title}
+                </h2>
+                
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {loan.description}
+                </p>
+          }
+          
 
 
 
