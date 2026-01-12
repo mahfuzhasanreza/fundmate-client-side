@@ -476,4 +476,37 @@ const CampaignCreate = () => {
                     <p className="text-sm text-gray-500 mt-2">PNG, JPG, JPEG up to 10MB each</p>
                   </div>
 
+                  {/* Image Previews */}
+                  {formData.images.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+                      {formData.images.map((image, index) => (
+                        <div key={image.id} className="relative group">
+                          <img
+                            src={image.url}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg"
+                          />
+                          <button
+                            onClick={() => removeImage(image.id)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {errors.images && (
+                    <p className="text-red-500 text-sm mt-1 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                      {errors.images}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            
+
   
