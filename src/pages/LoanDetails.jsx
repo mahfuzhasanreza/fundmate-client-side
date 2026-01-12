@@ -667,5 +667,4 @@ const LoanDetails = () => {
     </div>
   )
 }
-
 export default LoanDetails
