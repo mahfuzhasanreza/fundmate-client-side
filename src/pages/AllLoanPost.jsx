@@ -390,7 +390,47 @@ const AllLoanPost = () => {
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                   {loan.description}
                 </p>
-          }
+                            </motion.div>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {filteredLoans.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No loan requests found</h3>
+            <p className="text-gray-600">Try adjusting your search criteria or filters</p>
+          </motion.div>
+        )}
+
+        {/* Load More Button */}
+        {filteredLoans.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-center mt-12"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-600 hover:text-white transition-all"
+            >
+              Load More Requests
+            </motion.button>
+          </motion.div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default AllLoanPost
+
           
 
 
