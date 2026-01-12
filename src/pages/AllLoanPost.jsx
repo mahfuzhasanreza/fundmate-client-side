@@ -5,7 +5,9 @@ const AllLoanPost = () => {
     <div>
       
     </div>
+    
   );
+
 };
 
 export default AllLoanPost;
