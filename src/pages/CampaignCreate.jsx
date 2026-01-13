@@ -155,7 +155,7 @@ const CampaignCreate = () => {
         break
       case 2:
         if (!formData.fullStory.trim()) newErrors.fullStory = 'Campaign story is required'
-        if (formData.images.length === 0) newErrors.images = 'At least one image is required'
+        // Images are now optional - no validation required
         break
       case 3:
         // Optional validations for settings
@@ -447,12 +447,12 @@ const CampaignCreate = () => {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Campaign Images * (Max 5 images)
+                    Campaign Images (Optional - Max 5 images)
                   </label>
                   <div
                     className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
                       dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'
-                    } ${errors.images ? 'border-red-300' : ''}`}
+                    }`}
                     onDrop={handleDrop}
                     onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
                     onDragLeave={() => setDragOver(false)}
@@ -495,13 +495,6 @@ const CampaignCreate = () => {
                         </div>
                       ))}
                     </div>
-                  )}
-                  
-                  {errors.images && (
-                    <p className="text-red-500 text-sm mt-1 flex items-center">
-                      <AlertCircle className="h-4 w-4 mr-1" />
-                      {errors.images}
-                    </p>
                   )}
                 </div>
               </div>
@@ -586,12 +579,20 @@ const CampaignCreate = () => {
                 {/* Preview Card */}
                 <div className="border border-gray-200 rounded-xl overflow-hidden">
                   <div className="relative h-48 bg-gray-200">
-                    {formData.images[0] && (
+                    {formData.images.length > 0 && formData.images[0] && (
                       <img
                         src={formData.images[0].url}
                         alt="Campaign preview"
                         className="w-full h-full object-cover"
                       />
+                    )}
+                    {formData.images.length === 0 && (
+                      <div className="flex items-center justify-center h-full">
+                        <div className="text-center">
+                          <ImageIcon className="h-16 w-16 text-gray-400 mx-auto mb-2" />
+                          <p className="text-gray-500">No image uploaded</p>
+                        </div>
+                      </div>
                     )}
                     <div className="absolute top-4 left-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
