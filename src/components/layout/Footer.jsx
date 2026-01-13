@@ -23,7 +23,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-gray-300">
       {/* Main Footer Content */}
       <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Brand Section */}
           <motion.div 
             className="space-y-4"
@@ -45,19 +45,6 @@ const Footer = () => {
             <p className="text-sm leading-relaxed">
               Making financial support simple, transparent, and accessible within trusted communities through peer-to-peer loans and crowdfunding.
             </p>
-            <div className="flex space-x-4 pt-4">
-              {[Facebook, Twitter, Linkedin, Instagram].map((Icon, index) => (
-                <motion.a 
-                  key={index}
-                  href="#" 
-                  className="hover:text-primary-400 transition-colors duration-200"
-                  whileHover={{ scale: 1.2, y: -3 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Icon className="h-5 w-5" />
-                </motion.a>
-              ))}
-            </div>
           </motion.div>
 
           {/* Company Links */}
@@ -93,6 +80,81 @@ const Footer = () => {
               ))}
             </ul>
           </div>
+
+          {/* Connect With Us Section */}
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <h3 className="text-white font-semibold text-lg mb-4">Connect With Us</h3>
+            <p className="text-sm text-gray-400 mb-6">
+              Stay updated with the latest news and connect with our community
+            </p>
+            
+            {/* Social Media Icons Grid */}
+            <div className="flex space-x-4 justify-start">
+              <motion.a 
+                href="#facebook" 
+                className="p-3 rounded-lg bg-gray-800 hover:bg-blue-600 transition-all duration-300 group"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                title="Facebook"
+              >
+                <Facebook className="h-6 w-6 text-gray-300 group-hover:text-white transition-colors" />
+              </motion.a>
+              
+              <motion.a 
+                href="#twitter" 
+                className="p-3 rounded-lg bg-gray-800 hover:bg-sky-500 transition-all duration-300 group"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                title="Twitter"
+              >
+                <Twitter className="h-6 w-6 text-gray-300 group-hover:text-white transition-colors" />
+              </motion.a>
+              
+              <motion.a 
+                href="#linkedin" 
+                className="p-3 rounded-lg bg-gray-800 hover:bg-blue-700 transition-all duration-300 group"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                title="LinkedIn"
+              >
+                <Linkedin className="h-6 w-6 text-gray-300 group-hover:text-white transition-colors" />
+              </motion.a>
+              
+              <motion.a 
+                href="#instagram" 
+                className="p-3 rounded-lg bg-gray-800 hover:bg-pink-600 transition-all duration-300 group"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                title="Instagram"
+              >
+                <Instagram className="h-6 w-6 text-gray-300 group-hover:text-white transition-colors" />
+              </motion.a>
+            </div>
+
+            {/* Contact Info */}
+            <div className="mt-6 pt-6 border-t border-gray-800">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3">
+                  <Mail className="h-4 w-4 text-primary-400" />
+                  <span className="text-sm text-gray-400">hello@fundmate.com</span>
+                </div>
+                {/* <div className="flex items-center space-x-3">
+                  <Phone className="h-4 w-4 text-primary-400" />
+                  <span className="text-sm text-gray-400">+1 (555) 123-4567</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <MapPin className="h-4 w-4 text-primary-400" />
+                  <span className="text-sm text-gray-400">San Francisco, CA</span>
+                </div> */}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 

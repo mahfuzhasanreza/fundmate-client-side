@@ -1,9 +1,46 @@
-import React, { useState } from 'react'
-import { ArrowRight, Play, Search } from 'lucide-react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 const Hero = () => {
-  const [searchCategory, setSearchCategory] = useState('all')
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const navigate = useNavigate()
+
+  // Background slider images - using placeholder images for now
+  const backgroundImages = [
+    // {
+    //   url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80',
+    //   title: 'Peer-to-Peer Lending',
+    //   description: 'Connect with lenders and borrowers in your community'
+    // },
+    {
+      url: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1970&q=80',
+      title: 'Crowdfunding Campaigns',
+      description: 'Support meaningful projects and causes'
+    },
+    // {
+    //   url: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80',
+    //   title: 'Financial Growth',
+    //   description: 'Build financial security through community support'
+    // }
+  ]
+
+  // Auto-slide functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % backgroundImages.length)
+    }, 5000) // Change slide every 5 seconds
+    return () => clearInterval(interval)
+  }, [backgroundImages.length])
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % backgroundImages.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + backgroundImages.length) % backgroundImages.length)
+  }
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,342 +62,259 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="relative pt-20 pb-32 md:pt-32 md:pb-40 overflow-hidden">
-      {/* Advanced Background Design */}
-      {/* Base Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-100 via-white to-secondary-100"></div>
-      
-      {/* Mesh Gradient Overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-200/40 via-transparent to-transparent"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-secondary-200/40 via-transparent to-transparent"></div>
-      
-      {/* Animated Gradient Orbs */}
-      <motion.div 
-        className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-br from-primary-300 to-primary-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          x: [0, 100, 0],
-          y: [0, 50, 0],
-          rotate: [0, 90, 0]
-        }}
-        transition={{ 
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      ></motion.div>
-      
-      <motion.div 
-        className="absolute bottom-0 left-1/3 w-96 h-96 bg-gradient-to-tr from-secondary-300 to-secondary-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
-        animate={{ 
-          scale: [1, 1.3, 1],
-          x: [0, -80, 0],
-          y: [0, -60, 0],
-          rotate: [0, -90, 0]
-        }}
-        transition={{ 
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      ></motion.div>
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Interactive Background Slider */}
+      <div className="absolute inset-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          >
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${backgroundImages[currentSlide].url})` }}
+            />
+            {/* Gradient overlays for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
+          </motion.div>
+        </AnimatePresence>
 
-      <motion.div 
-        className="absolute top-1/2 left-0 w-80 h-80 bg-gradient-to-br from-primary-200 to-secondary-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
-        animate={{ 
-          scale: [1, 1.15, 1],
-          x: [0, 60, 0],
-          y: [0, -40, 0],
-          rotate: [0, 180, 0]
-        }}
-        transition={{ 
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      ></motion.div>
+        {/* Slider Controls */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+          {backgroundImages.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                currentSlide === index 
+                  ? 'bg-white shadow-lg scale-125' 
+                  : 'bg-white/50 hover:bg-white/75'
+              }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            />
+          ))}
+        </div>
 
-      {/* Geometric Pattern Overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="1" fill="currentColor" className="text-primary-600"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
+        {/* Navigation Arrows */}
+        <motion.button
+          onClick={prevSlide}
+          className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
+          whileHover={{ scale: 1.1, x: -2 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </motion.button>
+
+        <motion.button
+          onClick={nextSlide}
+          className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
+          whileHover={{ scale: 1.1, x: 2 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <ChevronRight className="h-6 w-6" />
+        </motion.button>
       </div>
 
-
+      {/* Enhanced Animated Elements */}
       {/* Floating Particles */}
-      {[...Array(6)].map((_, i) => (
+      {[...Array(12)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 bg-primary-400 rounded-full opacity-20"
+          className="absolute w-2 h-2 bg-white/20 rounded-full"
           style={{
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
           }}
           animate={{
             y: [0, -100, 0],
-            opacity: [0.2, 0.5, 0.2],
+            opacity: [0.1, 0.5, 0.1],
+            scale: [0.5, 1.2, 0.5],
           }}
           transition={{
-            duration: 10 + i * 2,
+            duration: 8 + i * 1.5,
             repeat: Infinity,
-            delay: i * 0.5,
+            delay: i * 0.3,
             ease: "easeInOut"
           }}
-        ></motion.div>
+        />
       ))}
 
-      <div className="container-custom relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+      {/* Geometric Shapes */}
+      <motion.div
+        className="absolute top-20 right-20 w-32 h-32 border-2 border-white/20 rounded-full"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      />
+      
+      <motion.div
+        className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 rounded-lg"
+        animate={{ 
+          rotate: [0, 45, 0],
+          scale: [1, 1.1, 1]
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="container-custom relative z-10">
+        <div className="flex items-center justify-center min-h-screen py-20">
+          {/* Centered Content */}
           <motion.div 
-            className="space-y-8 text-center lg:text-left"
+            className="text-center max-w-4xl mx-auto space-y-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
+            {/* Dynamic Background Title */}
+            <motion.div 
+              className="mb-6"
+              variants={itemVariants}
+            >
+              <AnimatePresence mode="wait">
+                <motion.h3
+                  key={currentSlide}
+                  className="text-lg md:text-xl text-white/80 font-medium mb-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {backgroundImages[currentSlide].description}
+                </motion.h3>
+              </AnimatePresence>
+            </motion.div>
+
             <motion.div className="inline-block" variants={itemVariants}>
               <motion.span 
-                className="bg-primary-100 text-primary-700 text-sm font-semibold px-4 py-2 rounded-full inline-block"
-                whileHover={{ scale: 1.05 }}
+                className="bg-white/10 backdrop-blur-md text-white text-sm font-semibold px-6 py-3 rounded-full inline-block border border-white/20"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
               >
                 🚀 Trusted by 10,000+ Community Members
               </motion.span>
             </motion.div>
             
             <motion.h1 
-              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight"
               variants={itemVariants}
             >
               Financial Support,{' '}
-              <span className="bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary-400 via-primary-300 to-secondary-300 bg-clip-text text-transparent">
                 Simplified
               </span>
             </motion.h1>
             
             <motion.p 
-              className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+              className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto"
               variants={itemVariants}
             >
-              FundMate connects people for peer-to-peer loans and crowdfunding campaigns. 
-              Get funded by your community or help others achieve their goals with complete 
-              transparency and automated management.
+              FundMate connects people for peer-to-peer loans and crowdfunding campaigns.
             </motion.p>
 
-            {/* Search Bar */}
             <motion.div 
-              className="max-w-2xl mx-auto lg:mx-0"
-              variants={itemVariants}
-            >
-              <div className="bg-white rounded-2xl shadow-xl p-2 border border-gray-200">
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <div className="flex-1 flex items-center gap-2 px-4 py-3 bg-gray-50 rounded-xl">
-                    <Search className="h-5 w-5 text-gray-400" />
-                    <input 
-                      type="text" 
-                      placeholder="Search for loans or campaigns..."
-                      className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-400"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <select 
-                      value={searchCategory}
-                      onChange={(e) => setSearchCategory(e.target.value)}
-                      className="px-4 py-3 bg-gray-50 rounded-xl border-none outline-none text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
-                    >
-                      <option value="all">All</option>
-                      <option value="loans">Loans</option>
-                      <option value="campaigns">Campaigns</option>
-                    </select>
-                    <motion.button 
-                      className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Search
-                    </motion.button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-6 justify-center"
               variants={itemVariants}
             >
               <motion.button 
-                className="btn-primary flex items-center justify-center space-x-2 group"
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(22, 163, 74, 0.3)" }}
+                onClick={() => navigate('/loan-request')}
+                className="px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 group shadow-2xl"
+                whileHover={{ 
+                  scale: 1.05, 
+                  boxShadow: "0 25px 50px rgba(22, 163, 74, 0.4)",
+                  y: -2
+                }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span>Request Loan</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-6 w-6" />
                 </motion.div>
               </motion.button>
               <motion.button 
-                className="btn-secondary flex items-center justify-center space-x-2 group"
-                whileHover={{ scale: 1.05 }}
+                onClick={() => navigate('/campaigns')}
+                className="px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/30 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 group shadow-2xl"
+                whileHover={{ 
+                  scale: 1.05, 
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  y: -2
+                }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span>Start Campaign</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
                 >
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-6 w-6" />
                 </motion.div>
               </motion.button>
             </motion.div>
 
-            {/* Trust Indicators */}
+            {/* Enhanced Trust Indicators */}
             <motion.div 
-              className="flex flex-wrap gap-6 justify-center lg:justify-start pt-8"
+              className="flex flex-wrap gap-8 justify-center pt-12"
               variants={itemVariants}
             >
               <motion.div 
-                className="flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
+                className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
               >
                 <div className="flex -space-x-2">
                   <motion.div 
-                    className="w-8 h-8 rounded-full bg-primary-400 border-2 border-white"
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-500 border-3 border-white"
                     whileHover={{ scale: 1.2, zIndex: 10 }}
                   ></motion.div>
                   <motion.div 
-                    className="w-8 h-8 rounded-full bg-primary-500 border-2 border-white"
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 border-3 border-white"
                     whileHover={{ scale: 1.2, zIndex: 10 }}
                   ></motion.div>
                   <motion.div 
-                    className="w-8 h-8 rounded-full bg-primary-600 border-2 border-white"
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-600 to-secondary-500 border-3 border-white"
                     whileHover={{ scale: 1.2, zIndex: 10 }}
                   ></motion.div>
                 </div>
-                <span className="text-sm text-gray-600 font-medium">4.9/5 Rating</span>
+                <span className="text-white font-bold text-lg">4.9/5 Rating</span>
               </motion.div>
+              
               <motion.div 
-                className="flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
+                className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
               >
                 <motion.span 
-                  className="text-2xl"
+                  className="text-3xl"
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
                   🔒
                 </motion.span>
-                <span className="text-sm text-gray-600 font-medium">Bank-Level Security</span>
+                <span className="text-white font-bold text-lg">Bank-Level Security</span>
+              </motion.div>
+
+              <motion.div 
+                className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+              >
+                <motion.span 
+                  className="text-3xl"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  💰
+                </motion.span>
+                <div className="text-white">
+                  <p className="font-bold text-lg">৳2.5M+</p>
+                  <p className="text-sm opacity-80">Funded</p>
+                </div>
               </motion.div>
             </motion.div>
-          </motion.div>
-
-          {/* Right Content - Visual */}
-          <motion.div 
-            className="relative hidden lg:block"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <div className="relative z-10">
-              {/* Main Card */}
-              <motion.div 
-                className="bg-white rounded-2xl shadow-2xl p-8"
-                whileHover={{ scale: 1.02, rotate: 1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-xl font-bold text-gray-900">Active Campaigns</h3>
-                    <motion.span 
-                      className="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full"
-                      animate={{ scale: [1, 1.1, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      Live
-                    </motion.span>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <motion.div 
-                      className="flex items-center justify-between p-4 bg-primary-50 rounded-lg"
-                      whileHover={{ x: 5, boxShadow: "0 10px 20px rgba(22, 163, 74, 0.2)" }}
-                    >
-                      <div>
-                        <p className="font-semibold text-gray-900">Small Business Loan</p>
-                        <p className="text-sm text-gray-600">$15,000 funded</p>
-                      </div>
-                      <div className="text-right">
-                        <motion.p 
-                          className="text-2xl font-bold text-primary-600"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          75%
-                        </motion.p>
-                        <p className="text-xs text-gray-600">of $20,000</p>
-                      </div>
-                    </motion.div>
-                    
-                    <motion.div 
-                      className="flex items-center justify-between p-4 bg-secondary-50 rounded-lg"
-                      whileHover={{ x: 5, boxShadow: "0 10px 20px rgba(179, 191, 255, 0.2)" }}
-                    >
-                      <div>
-                        <p className="font-semibold text-gray-900">Medical Crowdfund</p>
-                        <p className="text-sm text-gray-600">$8,500 raised</p>
-                      </div>
-                      <div className="text-right">
-                        <motion.p 
-                          className="text-2xl font-bold text-secondary-600"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.7 }}
-                        >
-                          85%
-                        </motion.p>
-                        <p className="text-xs text-gray-600">of $10,000</p>
-                      </div>
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Stats */}
-              <motion.div 
-                className="absolute -top-6 -right-6 bg-white rounded-xl shadow-xl p-4"
-                initial={{ opacity: 0, scale: 0, rotate: -45 }}
-                animate={{ opacity: 1, scale: 1, rotate: 3 }}
-                transition={{ delay: 0.8, type: "spring" }}
-                whileHover={{ rotate: 0, scale: 1.1 }}
-              >
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-primary-600">$2.5M+</p>
-                  <p className="text-sm text-gray-600">Funded</p>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4"
-                initial={{ opacity: 0, scale: 0, rotate: 45 }}
-                animate={{ opacity: 1, scale: 1, rotate: -3 }}
-                transition={{ delay: 1, type: "spring" }}
-                whileHover={{ rotate: 0, scale: 1.1 }}
-              >
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-secondary-600">500+</p>
-                  <p className="text-sm text-gray-600">Success Stories</p>
-                </div>
-              </motion.div>
-            </div>
           </motion.div>
         </div>
       </div>

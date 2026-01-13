@@ -143,10 +143,10 @@ const FeaturedCampaigns = () => {
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="font-semibold text-gray-900">
-                        ${campaign.raised.toLocaleString()}
+                        ৳{campaign.raised.toLocaleString()}
                       </span>
                       <span className="text-gray-600">
-                        of ${campaign.goal.toLocaleString()}
+                        of ৳{campaign.goal.toLocaleString()}
                       </span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">

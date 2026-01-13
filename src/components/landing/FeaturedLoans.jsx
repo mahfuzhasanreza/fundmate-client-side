@@ -69,7 +69,7 @@ const FeaturedLoans = () => {
   const getRiskColor = (risk) => {
     switch (risk) {
       case 'Very Low':
-        return 'bg-green-100 text-green-700'
+        return 'bg-primary-100 text-primary-700'
       case 'Low':
         return 'bg-blue-100 text-blue-700'
       case 'Medium':
@@ -152,7 +152,7 @@ const FeaturedLoans = () => {
                         whileHover={{ scale: 1.2, rotate: 360 }}
                         transition={{ duration: 0.5 }}
                       >
-                        <CheckCircle className="h-5 w-5 text-green-600" />
+                        <CheckCircle className="h-5 w-5 text-primary-600" />
                       </motion.div>
                     )}
                   </div>
@@ -172,10 +172,10 @@ const FeaturedLoans = () => {
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="font-semibold text-gray-900">
-                        ${loan.funded.toLocaleString()}
+                        ৳{loan.funded.toLocaleString()}
                       </span>
                       <span className="text-gray-600">
-                        of ${loan.amount.toLocaleString()}
+                        of ৳{loan.amount.toLocaleString()}
                       </span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
