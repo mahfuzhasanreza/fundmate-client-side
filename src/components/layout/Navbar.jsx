@@ -43,11 +43,19 @@ const Navbar = () => {
     setIsOpen(!isOpen)
   }
 
+  const handleNavigation = (href, requiresAuth) => {
+    if (requiresAuth && !user) {
+      navigate('/login')
+    } else {
+      navigate(href)
+    }
+  }
+
   const navLinks = [
-    { name: 'Home', href: '/', isRoute: true },
-    { name: 'Dashboard', href: '/dashboard', isRoute: true },
-    { name: 'Loans', href: '/all-loans', isRoute: true },
-    { name: 'Campaigns', href: '/campaigns', isRoute: true },
+    { name: 'Home', href: '/', isRoute: true, requiresAuth: false },
+    { name: 'Dashboard', href: '/dashboard', isRoute: true, requiresAuth: true },
+    { name: 'Loans', href: '/all-loans', isRoute: true, requiresAuth: true },
+    { name: 'Campaigns', href: '/campaigns', isRoute: true, requiresAuth: true },
   ]
 
   return (
@@ -85,7 +93,7 @@ const Navbar = () => {
               link.isRoute ? (
                 <motion.button
                   key={link.name}
-                  onClick={() => navigate(link.href)}
+                  onClick={() => handleNavigation(link.href, link.requiresAuth)}
                   className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -247,7 +255,7 @@ const Navbar = () => {
                     <motion.button
                       key={link.name}
                       onClick={() => {
-                        navigate(link.href)
+                        handleNavigation(link.href, link.requiresAuth)
                         setIsOpen(false)
                       }}
                       className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 pl-4 border-l-2 border-transparent hover:border-primary-500 text-left"
