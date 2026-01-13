@@ -240,7 +240,7 @@ const Hero = () => {
                 </motion.div>
               </motion.button>
               <motion.button 
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/login')}
                 className="px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/30 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 group shadow-2xl"
                 whileHover={{ 
                   scale: 1.05, 
