@@ -23,9 +23,9 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', href: '/', isRoute: true },
+    { name: 'Dashboard', href: '/dashboard', isRoute: true },
     { name: 'Loans', href: '/all-loans', isRoute: true },
     { name: 'Campaigns', href: '/campaigns', isRoute: true },
-    { name: 'Dashboard', href: '/dashboard', isRoute: true },
   ]
 
   return (
@@ -92,7 +92,7 @@ const Navbar = () => {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <NotificationBell />
+            {/* <NotificationBell /> */}
             <motion.button 
               onClick={() => navigate('/login')}
               className="text-primary-600 hover:text-primary-700 font-semibold transition-colors duration-200"

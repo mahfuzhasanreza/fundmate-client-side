@@ -1,0 +1,51 @@
+╔════════════════════════════════════════════════════════════╗
+║                  🔥 FIREBASE AUTH QUICK FIX                ║
+╚════════════════════════════════════════════════════════════╝
+
+❌ ERROR: "Operation not allowed. Please contact support."
+
+✅ SOLUTION: Enable Email/Password authentication in Firebase
+
+📋 STEPS TO FIX:
+
+1. Go to: https://console.firebase.google.com/
+
+2. Select project: "yourfundmate"
+
+3. Click: Authentication (left sidebar)
+
+4. Click: Sign-in method (tab)
+
+5. Find: "Email/Password" in the list
+
+6. Click on it
+
+7. Toggle: "Enable" switch to ON ✓
+
+8. Click: "Save"
+
+9. Done! Try registering again ✅
+
+════════════════════════════════════════════════════════════
+
+📍 OPTIONAL: Enable Google Sign-In
+
+1. Same page (Sign-in method tab)
+
+2. Click: "Google"
+
+3. Toggle: "Enable" switch to ON ✓
+
+4. Select: Support email
+
+5. Click: "Save"
+
+════════════════════════════════════════════════════════════
+
+🎯 Your Firebase Project Details:
+
+   Project ID:      yourfundmate
+   Auth Domain:     yourfundmate.firebaseapp.com
+   Console URL:     https://console.firebase.google.com/project/yourfundmate
+
+════════════════════════════════════════════════════════════

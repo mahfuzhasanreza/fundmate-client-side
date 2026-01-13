@@ -221,7 +221,7 @@ const Hero = () => {
               variants={itemVariants}
             >
               <motion.button 
-                onClick={() => navigate('/loan-request')}
+                onClick={() => navigate('/')}
                 className="px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 group shadow-2xl"
                 whileHover={{ 
                   scale: 1.05, 
@@ -230,7 +230,7 @@ const Hero = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Request Loan</span>
+                <span>Show Demo</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -239,7 +239,7 @@ const Hero = () => {
                 </motion.div>
               </motion.button>
               <motion.button 
-                onClick={() => navigate('/campaigns')}
+                onClick={() => navigate('/register')}
                 className="px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/30 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 group shadow-2xl"
                 whileHover={{ 
                   scale: 1.05, 
@@ -248,7 +248,7 @@ const Hero = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Start Campaign</span>
+                <span>Start Now</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
@@ -263,7 +263,7 @@ const Hero = () => {
               className="flex flex-wrap gap-8 justify-center pt-12"
               variants={itemVariants}
             >
-              <motion.div 
+              {/* <motion.div 
                 className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20"
                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
               >
@@ -282,7 +282,7 @@ const Hero = () => {
                   ></motion.div>
                 </div>
                 <span className="text-white font-bold text-lg">4.9/5 Rating</span>
-              </motion.div>
+              </motion.div> */}
               
               <motion.div 
                 className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20"
@@ -310,8 +310,8 @@ const Hero = () => {
                   💰
                 </motion.span>
                 <div className="text-white">
-                  <p className="font-bold text-lg">৳2.5M+</p>
-                  <p className="text-sm opacity-80">Funded</p>
+                  <p className="font-bold text-lg">৳2.5M+ Funded</p>
+                  {/* <p className="text-sm opacity-80">Funded</p> */}
                 </div>
               </motion.div>
             </motion.div>

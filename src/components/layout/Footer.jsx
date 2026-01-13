@@ -97,7 +97,7 @@ const Footer = () => {
             {/* Social Media Icons Grid */}
             <div className="flex space-x-4 justify-start">
               <motion.a 
-                href="#facebook" 
+                href="https://facebook.com/mahfuzhasanreza" 
                 className="p-3 rounded-lg bg-gray-800 hover:bg-blue-600 transition-all duration-300 group"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -107,7 +107,7 @@ const Footer = () => {
               </motion.a>
               
               <motion.a 
-                href="#twitter" 
+                href="https://twitter.com/mahfuzhasanreza" 
                 className="p-3 rounded-lg bg-gray-800 hover:bg-sky-500 transition-all duration-300 group"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -117,7 +117,7 @@ const Footer = () => {
               </motion.a>
               
               <motion.a 
-                href="#linkedin" 
+                href="https://linkedin.com/in/mahfuzhasanreza" 
                 className="p-3 rounded-lg bg-gray-800 hover:bg-blue-700 transition-all duration-300 group"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -127,7 +127,7 @@ const Footer = () => {
               </motion.a>
               
               <motion.a 
-                href="#instagram" 
+                href="https://instagram.com/mahfuzhasanreza" 
                 className="p-3 rounded-lg bg-gray-800 hover:bg-pink-600 transition-all duration-300 group"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -142,7 +142,7 @@ const Footer = () => {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <Mail className="h-4 w-4 text-primary-400" />
-                  <span className="text-sm text-gray-400">hello@fundmate.com</span>
+                  <span className="text-sm text-gray-400">mahfuzhasanreza1@gmail.com</span>
                 </div>
                 {/* <div className="flex items-center space-x-3">
                   <Phone className="h-4 w-4 text-primary-400" />

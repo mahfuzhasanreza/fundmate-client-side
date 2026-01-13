@@ -34,13 +34,13 @@ const CallToAction = () => {
           transition={{ duration: 0.6 }}
         >
           {/* Icon */}
-          <motion.div 
+          {/* <motion.div 
             className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm mb-8"
             whileHover={{ scale: 1.1, rotate: 180 }}
             transition={{ duration: 0.6 }}
           >
             <Sparkles className="h-10 w-10 text-white" />
-          </motion.div>
+          </motion.div> */}
 
           {/* Heading */}
           <motion.h2 
