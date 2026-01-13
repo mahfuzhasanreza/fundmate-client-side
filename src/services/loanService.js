@@ -48,6 +48,8 @@ export const getAllLoanRequests = async (filters = {}) => {
     const queryString = queryParams.toString()
     const url = `${API_BASE_URL}/api/loan-requests${queryString ? `?${queryString}` : ''}`
     
+    console.log('🌐 Making GET request to:', url)
+    
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -55,13 +57,17 @@ export const getAllLoanRequests = async (filters = {}) => {
       },
     })
 
+    console.log('📊 Response status:', response.status, response.statusText)
+    
     const data = await response.json()
+    console.log('📋 Raw API response:', data)
 
     if (!response.ok) {
       throw new Error(data.message || 'Failed to fetch loan requests')
     }
 
-    console.log('✅ Loan requests fetched successfully:', data.length || 0, 'items')
+    console.log('✅ Loan requests fetched successfully:', Array.isArray(data) ? data.length : 'Not an array', 'items')
+    console.log('📄 Sample data structure:', data[0])
     return data
   } catch (error) {
     console.error('❌ Fetch loan requests error:', error)

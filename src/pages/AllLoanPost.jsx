@@ -35,6 +35,24 @@ const AllLoanPost = () => {
   // Fetch loan requests from API
   useEffect(() => {
     fetchLoanRequests()
+    
+    // Direct API test
+    const testDirectFetch = async () => {
+      try {
+        console.log('🧪 Direct API test...')
+        const response = await fetch('http://localhost:5000/api/loan-requests')
+        const data = await response.json()
+        console.log('🧪 Direct fetch result:', {
+          status: response.status,
+          statusText: response.statusText,
+          data
+        })
+      } catch (error) {
+        console.log('🧪 Direct fetch error:', error)
+      }
+    }
+    
+    testDirectFetch()
   }, [selectedCategory])
 
   const fetchLoanRequests = async () => {
@@ -42,16 +60,29 @@ const AllLoanPost = () => {
       setLoading(true)
       setError('')
       
+      console.log('🔄 Starting fetch with category:', selectedCategory)
+      
       let data
       if (selectedCategory === 'all') {
+        console.log('📡 Fetching all loan requests...')
         data = await getAllLoanRequests()
       } else {
+        console.log('🏷️ Filtering by category:', selectedCategory)
         // Filter by status if needed
         data = await getLoanRequestsByStatus(selectedCategory)
       }
 
-      console.log('📥 Fetched loan requests:', data)
-      setLoanPosts(data || [])
+      console.log('📥 API Response received:', {
+        type: typeof data,
+        isArray: Array.isArray(data),
+        length: data?.length,
+        firstItem: data?.[0]
+      })
+      
+      // Ensure data is an array
+      const loansArray = Array.isArray(data) ? data : []
+      console.log('💾 Setting loan posts:', loansArray.length, 'items')
+      setLoanPosts(loansArray)
     } catch (err) {
       console.error('❌ Failed to fetch loan requests:', err)
       setError('Failed to load loan requests. Please try again.')
@@ -225,29 +256,51 @@ const AllLoanPost = () => {
     low: 'bg-primary-100 text-primary-700'
   }
 
-  const filteredLoans = loanPosts.filter(loan => {
-    const matchesSearch = loan.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         loan.purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         loan.borrower.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // Ensure loanPosts is always an array before filtering
+  const safeLoansArray = Array.isArray(loanPosts) ? loanPosts : []
+  console.log('🔄 Processing loans:', {
+    originalType: typeof loanPosts,
+    originalLength: loanPosts?.length,
+    safeArrayLength: safeLoansArray.length,
+    sampleLoan: safeLoansArray[0]
+  })
+
+  const filteredLoans = safeLoansArray.filter(loan => {
+    // Add safety checks for loan properties
+    const title = loan?.loanTitle || loan?.title || ''
+    const purpose = loan?.purpose || ''
+    const borrowerName = loan?.userEmail || loan?.borrower?.name || ''
     
-    const matchesCategory = selectedCategory === 'all' || loan.purpose === selectedCategory
+    const matchesSearch = title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         borrowerName.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesCategory = selectedCategory === 'all' || purpose === selectedCategory
     
     return matchesSearch && matchesCategory
   }).sort((a, b) => {
     switch (sortBy) {
       case 'recent':
-        return new Date(b.postedDate) - new Date(a.postedDate)
+        return new Date(b.createdAt || b.postedDate) - new Date(a.createdAt || a.postedDate)
       case 'amount-high':
-        return b.amount - a.amount
+        return (b.loanAmount || b.amount) - (a.loanAmount || a.amount)
       case 'amount-low':
-        return a.amount - b.amount
+        return (a.loanAmount || a.amount) - (b.loanAmount || b.amount)
       case 'interest-low':
-        return a.preferredInterest - b.preferredInterest
+        return (a.interestRate || a.preferredInterest || 0) - (b.interestRate || b.preferredInterest || 0)
       case 'deadline':
-        return new Date(a.deadline) - new Date(b.deadline)
+        return new Date(a.deadline || a.createdAt) - new Date(b.deadline || b.createdAt)
       default:
         return 0
     }
+  })
+
+  console.log('🎯 Filtered results:', {
+    totalLoans: safeLoansArray.length,
+    filteredCount: filteredLoans.length,
+    searchTerm,
+    selectedCategory,
+    filteredLoans: filteredLoans.slice(0, 3) // Show first 3 for debugging
   })
 
   const calculateMonthlyPayment = (principal, rate, months) => {
@@ -399,44 +452,44 @@ const AllLoanPost = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredLoans.map((loan, index) => (
             <motion.div
-              key={loan.id}
+              key={loan._id || loan.id || index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
-              onClick={() => handleLoanClick(loan.id)}
+              onClick={() => handleLoanClick(loan._id || loan.id)}
               className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 cursor-pointer group"
             >
               {/* Card Header */}
               <div className="p-6 pb-4">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="text-3xl">{loan.borrower.avatar}</div>
+                    <div className="text-3xl">{loan.borrower?.avatar || '👤'}</div>
                     <div>
                       <h3 className="font-semibold text-gray-900 flex items-center">
-                        {loan.borrower.name}
-                        {loan.borrower.verified && (
+                        {loan.borrower?.name || loan.userEmail?.split('@')[0] || 'Unknown User'}
+                        {loan.borrower?.verified && (
                           <CheckCircle className="h-4 w-4 text-primary-500 ml-2" />
                         )}
                       </h3>
                       <div className="flex items-center space-x-2 text-sm">
                         <div className="flex items-center">
                           <Star className="h-3 w-3 text-yellow-400 mr-1" />
-                          <span className="text-gray-600">{loan.borrower.rating}</span>
+                          <span className="text-gray-600">{loan.borrower?.rating || '4.5'}</span>
                         </div>
                         <span className="text-gray-300">•</span>
                         <div className="flex items-center text-gray-600">
                           <MapPin className="h-3 w-3 mr-1" />
-                          <span>{loan.borrower.location}</span>
+                          <span>{loan.borrower?.location || 'Location not specified'}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end space-y-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${urgencyColors[loan.urgency]}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${urgencyColors[loan.urgency || 'low']}`}>
                       {loan.urgency === 'high' ? 'Urgent' : loan.urgency === 'medium' ? 'Medium' : 'Standard'}
                     </span>
-                    {loan.hasCollateral && (
+                    {(loan.hasCollateral || loan.collateralNotes) && (
                       <div className="flex items-center text-xs text-primary-600">
                         <Shield className="h-3 w-3 mr-1" />
                         <span>Collateral</span>
@@ -446,23 +499,25 @@ const AllLoanPost = () => {
                 </div>
 
                 <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
-                  {loan.title}
+                  {loan.loanTitle || loan.title || 'Loan Request'}
                 </h2>
                 
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {loan.description}
+                  {loan.description || loan.collateralNotes || 'No description available'}
                 </p>
 
                 {/* Loan Details Grid */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center p-3 bg-primary-50 rounded-lg">
                     <DollarSign className="h-5 w-5 text-primary-600 mx-auto mb-1" />
-                  <p className="text-lg font-bold text-gray-900">৳{loan.amount.toLocaleString()}</p>
+                    <p className="text-lg font-bold text-gray-900">৳{(loan.loanAmount || loan.amount || 0).toLocaleString()}</p>
                     <p className="text-xs text-gray-600">Amount</p>
                   </div>
                   <div className="text-center p-3 bg-blue-50 rounded-lg">
                     <Calendar className="h-5 w-5 text-blue-600 mx-auto mb-1" />
-                    <p className="text-lg font-bold text-gray-900">{loan.tenure}m</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {loan.preferredTenure || `${loan.tenure || 0}m`}
+                    </p>
                     <p className="text-xs text-gray-600">Tenure</p>
                   </div>
                 </div>
@@ -471,12 +526,16 @@ const AllLoanPost = () => {
                 <div className="flex justify-between items-center mb-4 p-3 bg-gray-50 rounded-lg">
                   <div>
                     <p className="text-sm text-gray-600">Preferred Rate</p>
-                    <p className="font-bold text-gray-900">{loan.preferredInterest}%</p>
+                    <p className="font-bold text-gray-900">{loan.interestRate || loan.preferredInterest || 0}%</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Monthly Payment*</p>
                     <p className="font-bold text-primary-600">
-                      ৳{calculateMonthlyPayment(loan.amount, loan.preferredInterest, loan.tenure)}
+                      ৳{calculateMonthlyPayment(
+                        loan.loanAmount || loan.amount || 0, 
+                        loan.interestRate || loan.preferredInterest || 0, 
+                        loan.tenure || 12
+                      )}
                     </p>
                   </div>
                 </div>
@@ -486,16 +545,16 @@ const AllLoanPost = () => {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
                       <Eye className="h-4 w-4 mr-1" />
-                      <span>{loan.viewsCount}</span>
+                      <span>{loan.viewsCount || 0}</span>
                     </div>
                     <div className="flex items-center">
                       <MessageSquare className="h-4 w-4 mr-1" />
-                      <span>{loan.offersCount} offers</span>
+                      <span>{loan.offersCount || 0} offers</span>
                     </div>
                   </div>
                   <div className="flex items-center text-orange-600">
                     <Clock className="h-4 w-4 mr-1" />
-                    <span>{getDaysLeft(loan.deadline)} days left</span>
+                    <span>{getDaysLeft(loan.deadline || loan.createdAt)} days ago</span>
                   </div>
                 </div>
 
@@ -503,10 +562,10 @@ const AllLoanPost = () => {
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-secondary-100 text-secondary-700">
                     <Target className="h-3 w-3 mr-1" />
-                    {loan.purpose}
+                    {loan.purpose || 'General'}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {new Date(loan.postedDate).toLocaleDateString()}
+                    {new Date(loan.createdAt || loan.postedDate || Date.now()).toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -519,7 +578,7 @@ const AllLoanPost = () => {
                   className="w-full flex items-center justify-center space-x-2 bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 transition-all group-hover:shadow-lg"
                   onClick={(e) => {
                     e.stopPropagation()
-                    handleLoanClick(loan.id)
+                    handleLoanClick(loan._id || loan.id)
                   }}
                 >
                   <span>View Details</span>
