@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Search, 
@@ -16,9 +16,11 @@ import {
   Heart,
   MessageSquare,
   Shield,
-  Target
+  Target,
+  Loader
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { getAllLoanRequests, getLoanRequestsByStatus } from '../services/loanService'
 
 const AllLoanPost = () => {
   const navigate = useNavigate()
@@ -26,9 +28,41 @@ const AllLoanPost = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('recent')
   const [showFilters, setShowFilters] = useState(false)
+  const [loanPosts, setLoanPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  // Dummy loan data
-  const loanPosts = [
+  // Fetch loan requests from API
+  useEffect(() => {
+    fetchLoanRequests()
+  }, [selectedCategory])
+
+  const fetchLoanRequests = async () => {
+    try {
+      setLoading(true)
+      setError('')
+      
+      let data
+      if (selectedCategory === 'all') {
+        data = await getAllLoanRequests()
+      } else {
+        // Filter by status if needed
+        data = await getLoanRequestsByStatus(selectedCategory)
+      }
+
+      console.log('📥 Fetched loan requests:', data)
+      setLoanPosts(data || [])
+    } catch (err) {
+      console.error('❌ Failed to fetch loan requests:', err)
+      setError('Failed to load loan requests. Please try again.')
+      setLoanPosts([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Dummy loan data (fallback - remove this after API integration is confirmed)
+  const dummyLoanPosts = [
     {
       id: 'LN-2024-001',
       title: 'Small Business Expansion Loan',
@@ -333,7 +367,35 @@ const AllLoanPost = () => {
           </div>
         </motion.div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader className="h-12 w-12 text-primary-600 animate-spin mb-4" />
+            <p className="text-gray-600 font-semibold">Loading loan requests...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-50 border border-red-200 rounded-xl p-6 text-center"
+          >
+            <p className="text-red-600 font-semibold">{error}</p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={fetchLoanRequests}
+              className="mt-4 px-6 py-2 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-all"
+            >
+              Try Again
+            </motion.button>
+          </motion.div>
+        )}
+
         {/* Loan Cards Grid */}
+        {!loading && !error && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredLoans.map((loan, index) => (
             <motion.div
@@ -467,9 +529,10 @@ const AllLoanPost = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
         {/* Empty State */}
-        {filteredLoans.length === 0 && (
+        {!loading && !error && filteredLoans.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -482,7 +545,7 @@ const AllLoanPost = () => {
         )}
 
         {/* Load More Button */}
-        {filteredLoans.length > 0 && (
+        {!loading && !error && filteredLoans.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

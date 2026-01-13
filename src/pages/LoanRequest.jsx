@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowRight, 
@@ -17,10 +17,14 @@ import {
   Info
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { createLoanRequest } from '../services/loanService'
+import { getCurrentFirebaseUser } from '../services/firebaseAuthService'
 
 const LoanRequest = () => {
   const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(1)
+  const [user, setUser] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     loanTitle: '',
     amount: '',
@@ -36,6 +40,17 @@ const LoanRequest = () => {
 
   const [errors, setErrors] = useState({})
   const totalSteps = 4
+
+  // Get current user on component mount
+  useEffect(() => {
+    const currentUser = getCurrentFirebaseUser()
+    setUser(currentUser)
+    
+    if (!currentUser) {
+      // Redirect to login if not authenticated
+      navigate('/login')
+    }
+  }, [])
 
   const purposeOptions = [
     'Business Expansion',
@@ -138,12 +153,61 @@ const LoanRequest = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (validateStep(currentStep)) {
-      console.log('Loan Request Submitted:', formData)
-      // Navigate to dashboard after submission
+    
+    if (!validateStep(currentStep)) {
+      return
+    }
+
+    if (!user || !user.email) {
+      setErrors({ submit: 'User email not found. Please login again.' })
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Calculate final tenure
+      const finalTenure = formData.tenure === 'custom' 
+        ? parseInt(formData.customTenure) 
+        : parseInt(formData.tenure)
+
+      // Calculate final interest rate
+      const finalInterestRate = formData.interestType === 'custom'
+        ? parseFloat(formData.customInterest)
+        : 0
+
+      // Prepare loan request data according to API specification
+      const loanRequestData = {
+        loanTitle: formData.loanTitle,
+        loanAmount: parseFloat(formData.amount),
+        purpose: formData.purpose,
+        preferredTenure: `${finalTenure} months`,
+        interestRate: finalInterestRate,
+        repaymentSchedule: formData.repaymentSchedule,
+        collateralNotes: formData.collateralNotes || undefined,
+        attachments: formData.attachments.map(file => file.name) || undefined,
+        userEmail: user.email
+      }
+
+      console.log('📤 Submitting loan request:', loanRequestData)
+
+      // Call API to create loan request
+      const response = await createLoanRequest(loanRequestData)
+
+      console.log('✅ Loan request created successfully:', response)
+
+      // Show success message (you can add a toast notification here)
+      alert('Loan request submitted successfully!')
+
+      // Navigate to dashboard after successful submission
       navigate('/dashboard')
+    } catch (error) {
+      console.error('❌ Failed to submit loan request:', error)
+      setErrors({ submit: error.message || 'Failed to submit loan request. Please try again.' })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -655,15 +719,40 @@ const LoanRequest = () => {
                   ) : (
                     <motion.button
                       type="submit"
-                      whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(22, 163, 74, 0.3)" }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: isSubmitting ? 1 : 1.02, boxShadow: isSubmitting ? "none" : "0 10px 30px rgba(22, 163, 74, 0.3)" }}
+                      whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                      className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <CheckCircle className="h-5 w-5" />
-                      <span>Submit Request</span>
+                      {isSubmitting ? (
+                        <>
+                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="h-5 w-5" />
+                          <span>Submit Request</span>
+                        </>
+                      )}
                     </motion.button>
                   )}
                 </div>
+
+                {/* Error Display */}
+                {errors.submit && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start"
+                  >
+                    <AlertCircle className="h-5 w-5 text-red-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-600">{errors.submit}</p>
+                  </motion.div>
+                )}
               </form>
             </motion.div>
           </div>
