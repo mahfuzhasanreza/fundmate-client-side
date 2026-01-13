@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Upload, 
@@ -17,13 +17,20 @@ import {
   Users,
   Clock,
   Heart,
-  Gift
+  Gift,
+  Loader
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../config/firebase'
+import { createCampaign } from '../services/campaignService'
 
 const CampaignCreate = () => {
   const navigate = useNavigate()
+  const [user, loading] = useAuthState(auth)
   const [currentStep, setCurrentStep] = useState(1)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -56,7 +63,7 @@ const CampaignCreate = () => {
   ]
 
   const urgencyLevels = [
-    { value: 'urgent', label: 'Urgent', description: 'Immediate action required', color: 'red' },
+    { value: 'critical', label: 'Critical', description: 'Life-threatening emergency', color: 'red' },
     { value: 'high', label: 'High Priority', description: 'Time-sensitive campaign', color: 'orange' },
     { value: 'medium', label: 'Medium Priority', description: 'Standard timeline', color: 'yellow' },
     { value: 'low', label: 'Standard', description: 'Flexible timeline', color: 'green' }
@@ -74,6 +81,12 @@ const CampaignCreate = () => {
     { id: 3, title: 'Settings', description: 'Final details' },
     { id: 4, title: 'Preview', description: 'Review & publish' }
   ]
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login')
+    }
+  }, [user, loading, navigate])
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -176,12 +189,44 @@ const CampaignCreate = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1))
   }
 
-  const handleSubmit = () => {
-    if (validateStep(currentStep)) {
-      // Handle campaign creation
-      console.log('Creating campaign:', formData)
-      // Redirect to campaigns page or success page
-      navigate('/campaigns')
+  const handleSubmit = async () => {
+    if (!validateStep(currentStep)) {
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitMessage('')
+
+    try {
+      const campaignData = {
+        campaignTitle: formData.title,
+        category: formData.category,
+        targetAmount: parseInt(formData.targetAmount),
+        campaignDuration: `${formData.duration} days`,
+        location: formData.location,
+        shortDescription: formData.shortDescription,
+        campaignStory: formData.fullStory,
+        urgencyLevel: formData.urgency,
+        campaignImages: formData.images.map(img => img.name),
+        campaignTags: formData.tags,
+        creatorEmail: user?.email || ''
+      }
+
+      console.log('Submitting campaign:', campaignData)
+
+      const result = await createCampaign(campaignData)
+      
+      setSubmitMessage('Campaign created successfully!')
+      
+      setTimeout(() => {
+        navigate('/campaigns')
+      }, 2000)
+      
+    } catch (error) {
+      console.error('Error creating campaign:', error)
+      setSubmitMessage(`Failed to create campaign: ${error.message}`)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -196,6 +241,17 @@ const CampaignCreate = () => {
       })
     }
     return ''
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader className="h-8 w-8 animate-spin text-primary-600 mx-auto mb-4" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -596,7 +652,7 @@ const CampaignCreate = () => {
                     )}
                     <div className="absolute top-4 left-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        formData.urgency === 'urgent' ? 'bg-red-100 text-red-700' :
+                        formData.urgency === 'critical' ? 'bg-red-100 text-red-700' :
                         formData.urgency === 'high' ? 'bg-orange-100 text-orange-700' :
                         formData.urgency === 'medium' ? 'bg-yellow-100 text-yellow-700' :
                         'bg-primary-100 text-primary-700'
@@ -646,6 +702,23 @@ const CampaignCreate = () => {
                     </div>
                   </div>
                 </div>
+
+                {submitMessage && (
+                  <div className={`p-4 rounded-xl border ${
+                    submitMessage.includes('Failed') || submitMessage.includes('Error')
+                      ? 'bg-red-50 border-red-200 text-red-700'
+                      : 'bg-green-50 border-green-200 text-green-700'
+                  }`}>
+                    <div className="flex items-start space-x-3">
+                      {submitMessage.includes('Failed') || submitMessage.includes('Error') ? (
+                        <AlertCircle className="h-5 w-5 mt-0.5" />
+                      ) : (
+                        <CheckCircle className="h-5 w-5 mt-0.5" />
+                      )}
+                      <p>{submitMessage}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -677,10 +750,24 @@ const CampaignCreate = () => {
               ) : (
                 <button
                   onClick={handleSubmit}
-                  className="flex items-center space-x-2 px-8 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all shadow-lg"
+                  disabled={isSubmitting}
+                  className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition-all shadow-lg ${
+                    isSubmitting 
+                      ? 'bg-gray-400 text-white cursor-not-allowed' 
+                      : 'bg-primary-600 text-white hover:bg-primary-700'
+                  }`}
                 >
-                  <Gift className="h-5 w-5" />
-                  <span>Publish Campaign</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader className="h-5 w-5 animate-spin" />
+                      <span>Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Gift className="h-5 w-5" />
+                      <span>Publish Campaign</span>
+                    </>
+                  )}
                 </button>
               )}
             </div>
