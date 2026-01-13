@@ -99,7 +99,7 @@ const Login = () => {
 
         {/* Social Login Buttons */}
         <motion.div 
-          className="grid grid-cols-2 gap-4"
+          className="grid grid-cols-1 gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -113,14 +113,14 @@ const Login = () => {
             <span className="text-sm font-semibold text-gray-700">Google</span>
           </motion.button>
           
-          <motion.button
+          {/* <motion.button
             whileHover={{ scale: 1.02, boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}
             whileTap={{ scale: 0.98 }}
             className="flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-200 rounded-xl hover:border-gray-800 hover:bg-gray-50 transition-all"
           >
             <Github className="h-5 w-5 text-gray-800" />
             <span className="text-sm font-semibold text-gray-700">GitHub</span>
-          </motion.button>
+          </motion.button> */}
         </motion.div>
 
         {/* Divider */}
@@ -160,7 +160,7 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none"
-                  placeholder="you@example.com"
+                  placeholder="Enter your email"
                 />
               </div>
             </div>
@@ -183,7 +183,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="block w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none"
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                 />
                 <button
                   type="button"
@@ -201,8 +201,8 @@ const Login = () => {
           </div>
 
           {/* Remember Me & Forgot Password */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
+          <div className="flex items-center justify-end">
+            {/* <div className="flex items-center">
               <input
                 id="rememberMe"
                 name="rememberMe"
@@ -214,7 +214,7 @@ const Login = () => {
               <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700 cursor-pointer">
                 Remember me
               </label>
-            </div>
+            </div> */}
 
             <Link to="/forgot-password" className="text-sm font-semibold text-primary-600 hover:text-primary-700">
               Forgot password?
